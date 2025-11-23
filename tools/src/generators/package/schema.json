@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Package",
+  "title": "React Component Package Generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the package (without @kaijudo scope)",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name of the package? (e.g., 'button' will create @kaijudo/button)"
+    }
+  },
+  "required": ["name"]
+}
