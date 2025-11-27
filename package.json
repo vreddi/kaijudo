@@ -3,19 +3,35 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "test": "nx run-many --target=test --all"
+    "test": "nx run-many --target=test --all",
+    "mcp": "nx-mcp",
+    "mcp:start": "nx-mcp ."
   },
   "private": true,
   "devDependencies": {
     "@nx/js": "22.1.1",
     "@nx/plugin": "^22.1.1",
+    "@storybook/addon-essentials": "^8.3.5",
+    "@storybook/addon-interactions": "^8.3.5",
+    "@storybook/addon-links": "^8.3.5",
+    "@storybook/blocks": "^8.3.5",
+    "@storybook/react": "^8.3.5",
+    "@storybook/react-vite": "^8.3.5",
+    "@storybook/test": "^8.3.5",
+    "@tailwindcss/vite": "^4.0.6",
     "@swc-node/register": "~1.9.1",
     "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/node": "20.19.9",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@vitest/ui": "^3.0.5",
     "nx": "22.1.0",
+    "nx-mcp": "^0.10.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "storybook": "^8.3.5",
     "tslib": "^2.3.0",
     "tsup": "^8.5.1",
     "typescript": "~5.9.2",
@@ -23,5 +39,10 @@
   },
   "dependencies": {
     "@nx/devkit": "22.1.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "xmlbuilder2": "^3.0.2"
+    }
   }
 }

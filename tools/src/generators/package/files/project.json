@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "<%= packageFullName %>",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "src",
   "targets": {
@@ -8,24 +8,24 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsup",
-        "cwd": "."
+        "cwd": "{projectRoot}"
       },
-      "outputs": ["dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "storybook dev -p 6006",
-        "cwd": "."
+        "command": "storybook dev -p 6006 --config-dir .storybook",
+        "cwd": "{projectRoot}"
       }
     },
     "build-storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "storybook build",
-        "cwd": "."
+        "command": "storybook build --config-dir .storybook",
+        "cwd": "{projectRoot}"
       },
-      "outputs": ["storybook-static"]
+      "outputs": ["{workspaceRoot}/storybook-static"]
     },
     "test": {
       "executor": "nx:run-commands",
@@ -36,4 +36,3 @@
     }
   }
 }
-

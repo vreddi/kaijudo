@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Storybook preview background styling */
+.sb-show-main {
+  background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

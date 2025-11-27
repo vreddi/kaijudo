@@ -1,27 +1,59 @@
-import { defineConfig } from 'vite'
-import { devtools } from '@tanstack/devtools-vite'
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import viteReact from '@vitejs/plugin-react'
-import viteTsConfigPaths from 'vite-tsconfig-paths'
-import tailwindcss from '@tailwindcss/vite'
-import { cloudflare } from '@cloudflare/vite-plugin'
+import { defineConfig } from "vite";
 
-const config = defineConfig({
-  plugins: [
+export default defineConfig(async ({ command }) => {
+  // Lazy load all plugins to avoid ESM/CommonJS conflicts during config loading
+  const [
+    { devtools },
+    { tanstackStart },
+    { default: viteReact },
+    { default: viteTsConfigPaths },
+    { default: tailwindcss },
+  ] = await Promise.all([
+    import("@tanstack/devtools-vite"),
+    import("@tanstack/react-start/plugin/vite"),
+    import("@vitejs/plugin-react"),
+    import("vite-tsconfig-paths"),
+    import("@tailwindcss/vite"),
+  ]);
+
+  const plugins: any[] = [
     devtools(),
-    cloudflare({ viteEnvironment: { name: 'ssr' } }),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
-      projects: ['./tsconfig.json'],
+      projects: ["./tsconfig.json"],
     }),
     tailwindcss(),
     tanstackStart(),
     viteReact({
       babel: {
-        plugins: ['babel-plugin-react-compiler'],
+        plugins: ["babel-plugin-react-compiler"],
       },
     }),
-  ],
-})
+  ];
 
-export default config
+  // Only add Cloudflare plugin for dev/build, skip for preview
+  const isPreview = process.argv.includes("preview");
+
+  if (!isPreview) {
+    try {
+      const { cloudflare } = await import("@cloudflare/vite-plugin");
+      const { existsSync } = await import("fs");
+      const { join } = await import("path");
+      const wranglerConfigExists = existsSync(
+        join(process.cwd(), ".wrangler/deploy/config.json")
+      );
+      if (wranglerConfigExists) {
+        plugins.splice(1, 0, cloudflare({ viteEnvironment: { name: "ssr" } }));
+      }
+    } catch (e) {
+      // Cloudflare plugin not available or has issues, continue without it
+    }
+  }
+
+  return {
+    plugins,
+    optimizeDeps: {
+      exclude: ["xmlbuilder2"],
+    },
+  };
+});

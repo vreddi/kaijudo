@@ -2,7 +2,6 @@ import {
   formatFiles,
   generateFiles,
   Tree,
-  updateJson,
   installPackagesTask,
 } from "@nx/devkit";
 import * as path from "path";
@@ -32,19 +31,7 @@ export async function packageGenerator(
     packageFullName,
   });
 
-  // Update tsconfig.base.json to include the new package
-  updateJson(tree, "tsconfig.base.json", (json) => {
-    if (!json.compilerOptions) {
-      json.compilerOptions = {};
-    }
-    if (!json.compilerOptions.paths) {
-      json.compilerOptions.paths = {};
-    }
-    json.compilerOptions.paths[packageFullName] = [
-      `${projectRoot}/src/index.ts`,
-    ];
-    return json;
-  });
+  // Note: No need to update tsconfig.base.json paths - pnpm workspace:* handles linking automatically
 
   await formatFiles(tree);
 
