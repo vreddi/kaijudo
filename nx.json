@@ -43,8 +43,6 @@
   },
   "release": {
     "projects": ["tag:publishable"],
-    "version": {
-      "versionPlans": true
-    }
+    "versionPlans": true
   }
 }
