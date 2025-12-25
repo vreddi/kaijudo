@@ -1,20 +1,20 @@
-# @kaijudo/types
+# @kaijudo/create-types
 
 A React component package.
 
 ## Installation
 
 ```bash
-pnpm add @kaijudo/types
+pnpm add @kaijudo/create-types
 ```
 
 ## Usage
 
 ```tsx
-import { Types } from '@kaijudo/types';
+import { CreateTypes } from '@kaijudo/create-types';
 
 function App() {
-  return <Types>Hello World</Types>;
+  return <CreateTypes>Hello World</CreateTypes>;
 }
 ```
 

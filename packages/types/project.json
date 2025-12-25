@@ -15,15 +15,15 @@
     "storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "storybook dev -p 6006",
-        "cwd": "."
+        "command": "storybook dev -p 6006 --config-dir .storybook",
+        "cwd": "{projectRoot}"
       }
     },
     "build-storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "storybook build",
-        "cwd": "."
+        "command": "storybook build --config-dir .storybook",
+        "cwd": "{projectRoot}"
       },
       "outputs": ["{workspaceRoot}/storybook-static"]
     },
