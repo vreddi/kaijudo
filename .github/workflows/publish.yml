@@ -4,8 +4,8 @@ on:
   # Trigger on version tags (e.g., v1.0.0, @kaijudo/types@1.0.0)
   push:
     tags:
-      - 'v*.*.*'
-      - '@kaijudo/*@*.*.*'
+      - "v*.*.*"
+      - "@kaijudo/*@*.*.*"
   # Allow manual triggering for flexibility
   workflow_dispatch:
 
@@ -17,7 +17,7 @@ jobs:
       contents: read
       id-token: write # Required for npm provenance
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,8 +34,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -48,4 +48,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
-
+          NPM_CONFIG_ACCESS: public
