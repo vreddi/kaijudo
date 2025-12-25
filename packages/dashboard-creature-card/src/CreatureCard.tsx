@@ -1,30 +1,30 @@
-'use client'
+"use client";
 
-import { motion } from 'motion/react'
-import { cn } from './utils'
-import type { Creature } from '@kaijudo/types'
+import { motion } from "motion/react";
+import { cn } from "./utils";
+import type { Creature } from "@kaijudo/react-game-types";
 
 export interface CreatureCardProps {
   /**
    * Creature data
    */
   creature: Creature & {
-    imageSrc?: string
-    playCount?: number
-    winRate?: number
-  }
+    imageSrc?: string;
+    playCount?: number;
+    winRate?: number;
+  };
   /**
    * Show favorite toggle
    */
-  favorite?: boolean
+  favorite?: boolean;
   /**
    * Callback when favorite is toggled
    */
-  onFavoriteToggle?: (creatureId: string) => void
+  onFavoriteToggle?: (creatureId: string) => void;
   /**
    * Additional CSS classes
    */
-  className?: string
+  className?: string;
 }
 
 /**
@@ -38,10 +38,10 @@ export function CreatureCard({
   className,
 }: CreatureCardProps) {
   const civilizationColors = {
-    water: 'bg-blue-500/20 border-blue-500/50 text-blue-400',
-    light: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
-    darkness: 'bg-purple-500/20 border-purple-500/50 text-purple-400',
-  }
+    water: "bg-blue-500/20 border-blue-500/50 text-blue-400",
+    light: "bg-yellow-500/20 border-yellow-500/50 text-yellow-400",
+    darkness: "bg-purple-500/20 border-purple-500/50 text-purple-400",
+  };
 
   return (
     <motion.div
@@ -49,7 +49,7 @@ export function CreatureCard({
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.05 }}
       className={cn(
-        'relative min-w-[180px] bg-slate-800 rounded-lg overflow-hidden border border-slate-700/50 cursor-pointer group',
+        "relative min-w-[180px] bg-slate-800 rounded-lg overflow-hidden border border-slate-700/50 cursor-pointer group",
         className
       )}
     >
@@ -74,17 +74,17 @@ export function CreatureCard({
           </h3>
           <button
             onClick={(e) => {
-              e.stopPropagation()
-              onFavoriteToggle?.(creature.name)
+              e.stopPropagation();
+              onFavoriteToggle?.(creature.name);
             }}
             className={cn(
-              'ml-2 shrink-0 transition-colors',
-              favorite ? 'text-red-500' : 'text-slate-500 hover:text-red-500'
+              "ml-2 shrink-0 transition-colors",
+              favorite ? "text-red-500" : "text-slate-500 hover:text-red-500"
             )}
           >
             <svg
               className="w-4 h-4"
-              fill={favorite ? 'currentColor' : 'none'}
+              fill={favorite ? "currentColor" : "none"}
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
@@ -101,8 +101,13 @@ export function CreatureCard({
         {/* Stats */}
         <div className="flex items-center gap-3 mb-2">
           <div className="text-xs text-slate-400">
-            <span className="font-semibold text-slate-200">{creature.power}</span>/
-            <span className="font-semibold text-slate-200">{creature.toughness}</span>
+            <span className="font-semibold text-slate-200">
+              {creature.power}
+            </span>
+            /
+            <span className="font-semibold text-slate-200">
+              {creature.toughness}
+            </span>
           </div>
           {creature.winRate !== undefined && (
             <div className="text-xs text-green-400">
@@ -114,14 +119,14 @@ export function CreatureCard({
         {/* Civilization Badge */}
         <div
           className={cn(
-            'inline-flex items-center px-2 py-1 rounded text-xs font-medium border',
+            "inline-flex items-center px-2 py-1 rounded text-xs font-medium border",
             civilizationColors[creature.civilization]
           )}
         >
-          {creature.civilization.charAt(0).toUpperCase() + creature.civilization.slice(1)}
+          {creature.civilization.charAt(0).toUpperCase() +
+            creature.civilization.slice(1)}
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
-
