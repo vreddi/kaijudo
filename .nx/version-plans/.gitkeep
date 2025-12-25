@@ -1,0 +1,5 @@
+# Version plans directory
+# This directory contains markdown files that specify version bumps for packages.
+# Files in this directory are tracked by git and will be automatically applied
+# when running `nx release`.
+

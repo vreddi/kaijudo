@@ -9,7 +9,7 @@
       "default"
     ],
     "sharedGlobals": [
-      "{workspaceRoot}/.github/workflows/ci.yml"
+      "{workspaceRoot}/.github/workflows/*.yml"
     ]
   },
   "nxCloudId": "691ea1d76ba88c7e9e1887cb",
@@ -39,6 +39,12 @@
         "production",
         "^production"
       ]
+    }
+  },
+  "release": {
+    "projects": ["tag:publishable"],
+    "version": {
+      "versionPlans": true
     }
   }
 }

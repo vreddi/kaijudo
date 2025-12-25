@@ -1,0 +1,61 @@
+name: Create Release
+
+on:
+  # Allow manual triggering to create version commits and tags
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (preview only)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    name: Create Release (Version & Tag)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create tags and commits
+      id-token: write
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release (version & tag)
+        run: |
+          if [ "${{ inputs.dry_run }}" == "true" ]; then
+            pnpm nx release --skip-publish --dry-run
+          else
+            pnpm nx release --skip-publish
+          fi
+
+      - name: Push changes and tags
+        if: inputs.dry_run != 'true'
+        run: |
+          git push origin HEAD:${{ github.ref_name }}
+          git push --tags
+

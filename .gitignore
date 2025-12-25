@@ -89,7 +89,10 @@ web_modules/
 out
 
 # Nx
-.nx
+.nx/cache
+.nx/workspace-data
+# Track version plans
+!.nx/version-plans/
 
 # Nuxt.js build / generate output
 .nuxt
