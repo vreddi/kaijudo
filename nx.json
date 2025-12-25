@@ -12,7 +12,7 @@
       "{workspaceRoot}/.github/workflows/*.yml"
     ]
   },
-  "nxCloudId": "691ea1d76ba88c7e9e1887cb",
+  "nxCloudId": "694d0ca15b7251a312a6f0e0",
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
@@ -42,7 +42,9 @@
     }
   },
   "release": {
-    "projects": ["tag:publishable"],
+    "projects": [
+      "tag:publishable"
+    ],
     "versionPlans": true
   }
 }
