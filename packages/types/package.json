@@ -55,6 +55,10 @@
     "@tailwindcss/vite": "^4.0.0",
     "motion": "^12.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vreddi/kaijudo.git"
+  },
   "publishConfig": {
     "access": "public"
   }
