@@ -1,5 +1,5 @@
 {
-  "name": "@kaijudo/types",
+  "name": "@kaijudo/react-game-types",
   "version": "0.2.0",
   "private": false,
   "type": "module",
