@@ -1,3 +1,7 @@
+# Changelog
+
+This file contains all notable changes to the `@kaijudo/types` package.
+
 ## 0.2.0 (2025-12-25)
 
 ### 🚀 Features

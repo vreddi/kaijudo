@@ -45,6 +45,10 @@
     "projects": [
       "tag:publishable"
     ],
-    "versionPlans": true
+    "versionPlans": true,
+    "changelog": {
+      "projectChangelogs": true,
+      "workspaceChangelog": false
+    }
   }
 }
