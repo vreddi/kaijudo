@@ -7,6 +7,11 @@ export enum Race {
   Armorloid = "armorloid",
   BalloonMushroom = "balloonMushroom",
   BeastFolk = "beastFolk",
+  Berserker = "berserker",
+  BigMuscle = "bigMuscle",
+  BlueMonster = "blueMonster",
+  BrainJacker = "brainJacker",
+  BraveSpirit = "braveSpirit",
   LiquidPeople = "liquidPeople",
   LightBringer = "lightBringer",
 }
