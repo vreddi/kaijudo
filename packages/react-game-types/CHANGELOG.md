@@ -1,3 +1,20 @@
+## 0.4.1 (2025-12-27)
+
+### 🩹 Fixes
+
+- # Patch Release: Correct Version ([c1c4975](https://github.com/vreddi/kaijudo/commit/c1c4975))
+
+  This release corrects the version from the incorrectly published 0.1.0 back to the intended 0.4.1.
+
+  ## Changes
+
+  - Correct version to 0.4.1 (patch bump from 0.4.0)
+  - Fixes the versioning issue caused by missing independent release group configuration
+
+### ❤️ Thank You
+
+- Vishrut Reddi @vreddi
+
 ## 0.4.0 (2025-12-25)
 
 ### 🚀 Features
