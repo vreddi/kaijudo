@@ -1,3 +1,27 @@
+## 0.1.1 (2025-12-27)
+
+### 🩹 Fixes
+
+- # Patch Release: New Creature and Spell Images ([a815195](https://github.com/vreddi/kaijudo/commit/a815195))
+
+  Added 4 new card images to the package.
+
+  ## New Images
+
+  ### Creatures (3):
+  - **Burning Mane** - New creature card image
+  - **Deathblade Beetle** - New creature card image
+  - **Roaring Great Horn** - New creature card image
+
+  ### Spells (1):
+  - **Aura Blast** - New spell card image
+
+  All images are exported from index.ts and available for tree-shaking imports. The package now includes 30 creature images and 8 spell images total.
+
+### ❤️ Thank You
+
+- Vishrut Reddi @vreddi
+
 ## 0.1.0 (2025-12-27)
 
 ### 🚀 Features
