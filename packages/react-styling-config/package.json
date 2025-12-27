@@ -1,7 +1,7 @@
 {
-  "name": "@kaijudo/react-game-types",
-  "version": "0.1.0",
-  "private": false,
+  "name": "@kaijudo/react-styling-config",
+  "version": "0.0.1",
+  "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -12,7 +12,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
-    }
+    },
+    "./theme.css": "./src/theme.css",
+    "./base.css": "./src/base.css",
+    "./index.css": "./src/index.css",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsup",
@@ -22,14 +26,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.2",
-    "class-variance-authority": "^0.7.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "@kaijudo/react-storybook": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@storybook/addon-essentials": "*",
     "@storybook/addon-interactions": "*",
@@ -55,12 +52,5 @@
     "tailwindcss": "^4.0.0",
     "@tailwindcss/vite": "^4.0.0",
     "motion": "^12.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vreddi/kaijudo.git"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

@@ -2,7 +2,7 @@
 
 ### 🚀 Features
 
-- # Initial Public Release: Card Component ([6c5d57a](https://github.com/vreddi/kaijudo/commit/6c5d57a))
+- # Initial Public Release: Card Component ([8a13cbd](https://github.com/vreddi/kaijudo/commit/8a13cbd))
 
   Initial public release of the Card component package.
 
