@@ -1,0 +1,24 @@
+{
+  "name": "@kaijudo/storybook-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": ".",
+  "tags": [],
+  "targets": {
+    "storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "storybook dev -p 6006 --config-dir .storybook",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "build-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "storybook build --config-dir .storybook",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/storybook-static"]
+    }
+  }
+}

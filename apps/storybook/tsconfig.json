@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["vite/client", "node"]
+  },
+  "include": [
+    ".storybook/**/*",
+    "../../packages/**/stories/**/*",
+    "../../packages/**/src/**/*"
+  ],
+  "exclude": ["node_modules", "storybook-static"]
+}

@@ -1,0 +1,16 @@
+/* Import complete styling configuration from @kaijudo/react-styling-config */
+/* This includes Tailwind import, CSS variables, theme definitions, and base styles */
+@import "@kaijudo/react-styling-config/index.css";
+
+/* Tell Tailwind v4 to scan workspace packages for classes */
+/* This ensures classes in @kaijudo/react-storybook and other packages are found */
+/* Note: Paths are relative to this file location */
+@source "../../../packages/react-storybook/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/react-card/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/*/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/*/stories/**/*.{js,ts,jsx,tsx}";
+
+/* Storybook-specific preview styling */
+.sb-show-main {
+  min-height: 100vh;
+}

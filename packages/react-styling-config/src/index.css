@@ -1,0 +1,6 @@
+/* Complete Tailwind CSS v4 setup for @kaijudo component packages */
+/* Import this single file for everything */
+
+@import "tailwindcss";
+@import "./theme.css";
+@import "./base.css";
