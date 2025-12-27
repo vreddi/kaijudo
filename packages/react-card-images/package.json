@@ -1,0 +1,48 @@
+{
+  "name": "@kaijudo/react-card-images",
+  "version": "0.0.1",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./creatures/*": {
+      "types": "./dist/creatures/*.d.ts",
+      "import": "./dist/creatures/*",
+      "default": "./dist/creatures/*"
+    },
+    "./spells/*": {
+      "types": "./dist/spells/*.d.ts",
+      "import": "./dist/spells/*",
+      "default": "./dist/spells/*"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.2",
+    "vitest": "^3.0.5",
+    "@kaijudo/react-storybook": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vreddi/kaijudo.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
