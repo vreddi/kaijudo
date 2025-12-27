@@ -13,4 +13,8 @@ export type ComponentPageProps = PropsWithChildren<{
    * MDX content for the Examples tab that lists all stories
    */
   examples?: ReactNode;
+  /**
+   * MDX/Markdown content for the Changelog tab
+   */
+  changelogs?: ReactNode;
 }>;
