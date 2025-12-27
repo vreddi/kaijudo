@@ -45,6 +45,7 @@
     "projects": [
       "tag:publishable"
     ],
+    "projectsRelationship": "independent",
     "versionPlans": true,
     "changelog": {
       "projectChangelogs": true,
