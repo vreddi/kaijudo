@@ -2,7 +2,7 @@
 
 ### 🚀 Features
 
-- # Initial Public Release: Card Image Assets ([6b76633](https://github.com/vreddi/kaijudo/commit/6b76633))
+- # Initial Public Release: Card Image Assets ([6c5d57a](https://github.com/vreddi/kaijudo/commit/6c5d57a))
 
   Initial public release of the card image assets package.
 
