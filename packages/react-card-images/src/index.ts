@@ -5,6 +5,10 @@
 // Re-export images as named exports for convenience
 // When importing from '@kaijudo/creature-images', only the imported image is bundled
 
+export { default as burningMane } from "./creatures/burning-mane.png";
+export { default as auraBlast } from "./spells/aura-blast.png";
+export { default as roaringGreatHorn } from "./creatures/roaring-great-horn.png";
+export { default as deathbladeBeetle } from "./creatures/deathblade-beetle.png";
 export { default as aquaHulcus } from "./creatures/aqua-hulcus.png";
 export { default as astrocometDragon } from "./creatures/astrocomet-dragon.png";
 export { default as bronzeArmTribe } from "./creatures/bronze-arm-tribe.png";
