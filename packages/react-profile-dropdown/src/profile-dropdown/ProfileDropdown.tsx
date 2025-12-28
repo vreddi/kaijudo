@@ -43,15 +43,25 @@ interface ProfileDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
    * Callback function when sign out is clicked
    */
   onSignOut?: () => void;
+  /**
+   * Compact mode: Show only avatar by default, expand to show name/email on hover
+   * @default false
+   */
+  compact?: boolean;
 }
 
 export default function ProfileDropdown({
   data = SAMPLE_PROFILE_DATA,
   className,
   onSignOut,
+  compact = false,
   ...props
 }: ProfileDropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // In compact mode, show expanded container when menu is open OR when hovering
+  const shouldShowExpanded = compact ? isOpen || isHovered : true;
   const menuItems: MenuItem[] = [
     {
       label: "Profile",
@@ -83,24 +93,52 @@ export default function ProfileDropdown({
     },
   ];
 
+  // Reset hover state when menu closes in compact mode
+  React.useEffect(() => {
+    if (compact && !isOpen) {
+      setIsHovered(false);
+    }
+  }, [compact, isOpen]);
+
   return (
     <div className={cn("relative", className)} {...props}>
       <DropdownMenu onOpenChange={setIsOpen}>
-        <div className="group relative">
+        <div
+          className="group relative"
+          onMouseEnter={() => compact && !isOpen && setIsHovered(true)}
+          onMouseLeave={() => compact && !isOpen && setIsHovered(false)}
+        >
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="flex items-center gap-16 p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 hover:shadow-sm transition-all duration-200 focus:outline-none"
+              className={cn(
+                "flex items-center rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 hover:shadow-sm transition-all duration-300 focus:outline-none",
+                compact
+                  ? shouldShowExpanded
+                    ? "p-3 gap-4"
+                    : "p-2 gap-2"
+                  : "p-3 gap-16"
+              )}
             >
-              <div className="text-left flex-1">
-                <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight">
+              {/* Name and Email - hidden in compact mode until hover or menu open */}
+              <div
+                className={cn(
+                  "text-left transition-all duration-300 ease-in-out overflow-hidden",
+                  compact
+                    ? shouldShowExpanded
+                      ? "max-w-[200px] opacity-100"
+                      : "max-w-0 opacity-0"
+                    : "flex-1 opacity-100"
+                )}
+              >
+                <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight whitespace-nowrap">
                   {data.name}
                 </div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400 tracking-tight leading-tight">
+                <div className="text-xs text-zinc-500 dark:text-zinc-400 tracking-tight leading-tight whitespace-nowrap">
                   {data.email}
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-zinc-900">
                     <Avatar className="w-full h-full border-0">

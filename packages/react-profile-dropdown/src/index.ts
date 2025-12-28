@@ -16,4 +16,9 @@ export interface ProfileDropdownProps
    * Callback function when sign out is clicked
    */
   onSignOut?: () => void;
+  /**
+   * Compact mode: Show only avatar by default, expand to show name/email on hover
+   * @default false
+   */
+  compact?: boolean;
 }
