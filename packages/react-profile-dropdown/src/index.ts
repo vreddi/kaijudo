@@ -12,4 +12,8 @@ export interface ProfileDropdownProps
   extends React.HTMLAttributes<HTMLDivElement> {
   data?: Profile;
   showTopbar?: boolean;
+  /**
+   * Callback function when sign out is clicked
+   */
+  onSignOut?: () => void;
 }

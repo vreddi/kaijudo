@@ -39,11 +39,16 @@ const SAMPLE_PROFILE_DATA: Profile = {
 interface ProfileDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   data?: Profile;
   showTopbar?: boolean;
+  /**
+   * Callback function when sign out is clicked
+   */
+  onSignOut?: () => void;
 }
 
 export default function ProfileDropdown({
   data = SAMPLE_PROFILE_DATA,
   className,
+  onSignOut,
   ...props
 }: ProfileDropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -189,6 +194,7 @@ export default function ProfileDropdown({
             <DropdownMenuItem asChild>
               <button
                 type="button"
+                onClick={onSignOut}
                 className="w-full flex items-center gap-3 p-3 duration-200 bg-red-500/10 rounded-xl hover:bg-red-500/20 cursor-pointer border border-transparent hover:border-red-500/30 hover:shadow-sm transition-all group"
               >
                 <LogOut className="w-4 h-4 text-red-500 group-hover:text-red-600" />
