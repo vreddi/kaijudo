@@ -8,7 +8,10 @@
  * @module
  */
 
-import type * as todos from "../todos.js";
+import type * as card_baseCard from "../card/baseCard.js";
+import type * as card_civilization from "../card/civilization.js";
+import type * as card_race from "../card/race.js";
+import type * as card_rarity from "../card/rarity.js";
 
 import type {
   ApiFromModules,
@@ -17,7 +20,10 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  todos: typeof todos;
+  "card/baseCard": typeof card_baseCard;
+  "card/civilization": typeof card_civilization;
+  "card/race": typeof card_race;
+  "card/rarity": typeof card_rarity;
 }>;
 
 /**
