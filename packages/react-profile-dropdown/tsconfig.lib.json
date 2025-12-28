@@ -5,8 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "noEmit": false,
-    "composite": false
+    "noEmit": false
   },
   "include": ["src/**/*"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.stories.ts", ".storybook"]
