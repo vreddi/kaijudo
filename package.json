@@ -5,6 +5,7 @@
   "scripts": {
     "test": "nx run-many --target=test --all",
     "mcp": "nx-mcp",
+    "storybook": "nx storybook @kaijudo/storybook-app",
     "mcp:start": "nx-mcp ."
   },
   "private": true,
@@ -38,7 +39,8 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "@nx/devkit": "22.1.1"
+    "@nx/devkit": "22.1.1",
+    "@radix-ui/react-avatar": "^1.1.1"
   },
   "pnpm": {
     "overrides": {

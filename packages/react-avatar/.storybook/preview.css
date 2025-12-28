@@ -1,0 +1,21 @@
+/* Import complete styling configuration from @kaijudo/react-styling-config */
+/* This includes Tailwind import, CSS variables, theme definitions, and base styles */
+@import "@kaijudo/react-styling-config/index.css";
+
+/* Tell Tailwind v4 to scan workspace packages for classes */
+/* This ensures classes in @kaijudo/react-storybook are found */
+/* Note: Paths are relative to this file location */
+@source "../../../packages/react-storybook/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/react-avatar/src/**/*.{js,ts,jsx,tsx}";
+@source "../stories/**/*.{js,ts,jsx,tsx}";
+
+/* Storybook preview background styling */
+.sb-show-main {
+  background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
