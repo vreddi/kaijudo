@@ -1,0 +1,2 @@
+tools/package-plugin/src/generators/**/files
+tools/package-plugin/dist/generators/**/files

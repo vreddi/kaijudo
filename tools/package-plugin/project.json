@@ -1,0 +1,39 @@
+{
+  "name": "@kaijudo/package-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "tools/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "tools/dist",
+        "main": "tools/src/index.ts",
+        "tsConfig": "tools/tsconfig.lib.json",
+        "rootDir": "tools/src",
+        "generatePackageJson": false,
+        "assets": [
+          {
+            "input": "./tools/src",
+            "glob": "**/!(*.ts)",
+            "output": "."
+          },
+          {
+            "input": "./tools/src",
+            "glob": "**/*.d.ts",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}
