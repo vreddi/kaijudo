@@ -22,8 +22,10 @@ export default defineConfig(async ({ command }) => {
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
-    tailwindcss(),
+    // TanStack Start must come before other plugins to set up virtual modules
     tanstackStart(),
+    // Tailwind plugin processes CSS
+    tailwindcss(),
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],
@@ -54,6 +56,12 @@ export default defineConfig(async ({ command }) => {
     plugins,
     optimizeDeps: {
       exclude: ["xmlbuilder2"],
+    },
+    server: {
+      fs: {
+        // Allow serving files from workspace root so Tailwind can scan workspace packages
+        allow: [".."],
+      },
     },
   };
 });

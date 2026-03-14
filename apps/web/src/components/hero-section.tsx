@@ -6,10 +6,10 @@ import { AnimatedGroup } from "@/components/ui/animated-group";
 import { HeroHeader } from "./hero-header";
 import { LogoCloud } from "./logo-cloud";
 import { Card, CardContent, CardHeader } from "@kaijudo/react-card";
-import mieleImage from "@kaijudo/creature-images/creatures/miele-vizier-of-lightning.png?url";
-import fonchImage from "@kaijudo/creature-images/creatures/fonch-the-oracle.png?url";
-import larbaImage from "@kaijudo/creature-images/creatures/larba-geer-the-immaculate.png?url";
-import rimuelImage from "@kaijudo/creature-images/creatures/rimuel-cloudbreaker-elemental.png?url";
+import mieleImage from "@kaijudo/react-card-images/creatures/miele-vizier-of-lightning.png?url";
+import fonchImage from "@kaijudo/react-card-images/creatures/fonch-the-oracle.png?url";
+import larbaImage from "@kaijudo/react-card-images/creatures/larba-geer-the-immaculate.png?url";
+import rimuelImage from "@kaijudo/react-card-images/creatures/rimuel-cloudbreaker-elemental.png?url";
 
 const transitionVariants = {
   item: {

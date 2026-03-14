@@ -184,9 +184,6 @@ importers:
       '@convex-dev/react-query':
         specifier: 0.0.0-alpha.11
         version: 0.0.0-alpha.11(@standard-schema/spec@1.0.0)(@tanstack/react-query@5.90.10(react@19.2.0))(convex@1.29.3(@clerk/clerk-react@5.56.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0))(react@19.2.0)(typescript@5.9.3)(zod@4.1.12)
-      '@kaijudo/creature-images':
-        specifier: workspace:*
-        version: link:../../packages/creature-images
       '@kaijudo/dashboard-creature-card':
         specifier: workspace:*
         version: link:../../packages/dashboard-creature-card
@@ -211,9 +208,18 @@ importers:
       '@kaijudo/react-card':
         specifier: workspace:*
         version: link:../../packages/react-card
+      '@kaijudo/react-card-images':
+        specifier: workspace:*
+        version: link:../../packages/react-card-images
       '@kaijudo/react-game-types':
         specifier: workspace:*
         version: link:../../packages/react-game-types
+      '@kaijudo/react-header':
+        specifier: workspace:*
+        version: link:../../packages/react-header
+      '@kaijudo/react-profile-dropdown':
+        specifier: workspace:*
+        version: link:../../packages/react-profile-dropdown
       '@kaijudo/react-sidebar':
         specifier: workspace:*
         version: link:../../packages/sidebar
@@ -386,18 +392,6 @@ importers:
       wrangler:
         specifier: ^4.40.3
         version: 4.50.0
-
-  packages/creature-images:
-    devDependencies:
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(@swc/core@1.5.29(@swc/helpers@0.5.17))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
-      typescript:
-        specifier: ~5.9.2
-        version: 5.9.3
-      vitest:
-        specifier: ^3.0.5
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.1)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@27.2.0)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/dashboard-creature-card:
     dependencies:
