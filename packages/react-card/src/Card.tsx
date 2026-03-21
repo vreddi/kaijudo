@@ -1,82 +1,142 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
+import Tilt from "react-parallax-tilt";
 import { cn } from "./utils";
 import "./Card.css";
 import { CardSize } from "./types/cardSize";
 import type { CardSize as CardSizeType } from "./types/cardSize";
 
+/** Civilization-to-color mapping */
+const CIV_COLORS: Record<string, string> = {
+  light: "#e6c619",
+  water: "#1e90ff",
+  darkness: "#9b59b6",
+  fire: "#e63946",
+  nature: "#2d9e5c",
+};
+
+/** Rarity-to-variant mapping */
+const RARITY_VARIANTS: Record<string, CardVariant> = {
+  none: "default",
+  common: "default",
+  uncommon: "holo",
+  rare: "holo",
+  veryRare: "reverse-holo",
+  superRare: "rainbow",
+};
+
+export type CardVariant = "default" | "holo" | "reverse-holo" | "rainbow";
+export type CardState = "normal" | "tapped" | "disabled" | "selected" | "flipped";
+export type CardDisplayMode = "image" | "detailed";
+
 export interface CardProps {
-  /**
-   * The content to display inside the card
-   */
-  children?: React.ReactNode;
-  /**
-   * Additional CSS classes for the card container
-   */
-  className?: string;
-  /**
-   * The image source for the card (creature image)
-   */
+  /** Card image source */
   imageSrc?: string;
-  /**
-   * Alt text for the card image
-   */
+  /** Alt text for the card image */
   imageAlt?: string;
-  /**
-   * Enable holographic effect (default: true)
-   */
+  /** Card back image (falls back to generic design) */
+  cardBackSrc?: string;
+  /** Enable holographic effects (default: true) */
   holographic?: boolean;
-
+  /** Card size (default: Large) */
   size?: CardSizeType;
-
-  /**
-   * Card variant style
-   */
-  variant?: "default" | "holo" | "reverse-holo" | "rainbow";
+  /** Holo variant — auto-set by rarity if provided */
+  variant?: CardVariant;
+  /** Card state */
+  state?: CardState;
+  /** Display mode: image-only or detailed with stats */
+  displayMode?: CardDisplayMode;
+  /** Enable 3D tilt on hover (default: true) */
+  tiltEnabled?: boolean;
+  /** Max tilt angle in degrees (default: 15) */
+  tiltMaxAngle?: number;
+  /** Card civilization for glow color */
+  civilization?: string;
+  /** Card rarity — auto-selects variant if set */
+  rarity?: string;
+  /** Mana cost (shown in detailed mode) */
+  manaCost?: number;
+  /** Power value (shown in detailed mode) */
+  power?: number;
+  /** Card name (shown in detailed mode) */
+  name?: string;
+  /** Additional CSS classes */
+  className?: string;
+  /** Content to render inside the card */
+  children?: React.ReactNode;
+  /** Click handler */
+  onClick?: () => void;
 }
 
 /**
- * Holographic Card Component
- * Inspired by Pokemon Trading Cards holographic effects
+ * Enhanced Trading Card Component
  *
- * Uses CSS transforms, gradients, blend-modes and filters to simulate
- * various Holofoil effects found in trading cards.
- *
- * @example
- * ```tsx
- * <Card imageSrc="/creature.png" imageAlt="Fire Dragon">
- *   <CardContent>Card details here</CardContent>
- * </Card>
- * ```
+ * Features:
+ * - 3D parallax tilt on hover via react-parallax-tilt
+ * - Holographic effects (holo, reverse-holo, rainbow) driven by mouse position
+ * - Civilization-based glow colors
+ * - Rarity-based auto variant selection
+ * - Card states: normal, tapped, disabled, selected, flipped
+ * - Two display modes: image-only or detailed with stat badges
+ * - Sparkle particles for super rare cards
+ * - Card back with generic fallback or custom image
  */
 export function Card({
   children,
   className,
   imageSrc,
-  imageAlt = "Card image",
+  imageAlt = "Card",
+  cardBackSrc,
   holographic = true,
-  variant = "holo",
+  variant,
+  state = "normal",
+  displayMode = "image",
+  tiltEnabled = true,
+  tiltMaxAngle = 15,
+  civilization,
+  rarity,
+  manaCost,
+  power,
+  name,
+  onClick,
   size = CardSize.Large,
 }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
 
+  // Auto-select variant from rarity if not explicitly set
+  const resolvedVariant = variant ?? (rarity ? RARITY_VARIANTS[rarity] ?? "default" : "holo");
+
+  // Civilization color
+  const civColor = civilization ? CIV_COLORS[civilization] ?? CIV_COLORS.light : undefined;
+
+  // Track mouse for holo effects
   useEffect(() => {
-    if (!isHovered || !holographic) return;
+    if (!isHovered || !holographic || resolvedVariant === "default") return;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!cardRef.current) return;
-
       const rect = cardRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
-
       setMousePosition({ x, y });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isHovered, holographic]);
+  }, [isHovered, holographic, resolvedVariant]);
+
+  // Sparkle positions for super rare
+  const sparkles = useMemo(() => {
+    if (rarity !== "superRare") return [];
+    return Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 90 + 5}%`,
+      top: `${Math.random() * 90 + 5}%`,
+      delay: `${Math.random() * 2}s`,
+      duration: `${1.5 + Math.random() * 1.5}s`,
+    }));
+  }, [rarity]);
 
   const variantClasses = {
     default: "",
@@ -85,8 +145,6 @@ export function Card({
     rainbow: "card-rainbow",
   };
 
-  // Size mapping based on CardSize enum
-  // All sizes maintain the standard card aspect ratio (5:7)
   const sizeClasses = {
     [CardSize.Small]: "w-[175px] h-[245px]",
     [CardSize.Medium]: "w-[262px] h-[367px]",
@@ -101,62 +159,160 @@ export function Card({
     [CardSize.Battlefield]: "w-[350px] h-[490px]",
   };
 
-  return (
+  const holoAngle = Math.atan2(mousePosition.y - 50, mousePosition.x - 50) * (180 / Math.PI) + 130;
+
+  const cssVars = {
+    "--mouse-x": `${mousePosition.x}%`,
+    "--mouse-y": `${mousePosition.y}%`,
+    "--civ-color": civColor ?? "rgba(212, 160, 23, 0.6)",
+    "--holo-angle": `${holoAngle}deg`,
+  } as React.CSSProperties;
+
+  const isFlipped = state === "flipped";
+
+  const cardContent = (
     <div
       ref={cardRef}
       className={cn(
         "card-container relative rounded-2xl overflow-hidden",
         "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900",
         "shadow-2xl border-2 border-slate-600/30",
-        // Smooth size transitions when moving between zones
         "transform-gpu transition-all duration-500 ease-in-out",
-        // Size classes with transitions
         sizeClasses[size],
-        // Hover effects scale relative to current size
-        "hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]",
-        holographic && variantClasses[variant],
+        state === "tapped" && "card-tapped",
+        state === "disabled" && "card-disabled",
+        state === "selected" && "card-selected",
         className
       )}
+      style={cssVars}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={
-        holographic && variant === "reverse-holo"
-          ? ({
-              "--mouse-x": `${mousePosition.x}%`,
-              "--mouse-y": `${mousePosition.y}%`,
-            } as React.CSSProperties)
-          : undefined
-      }
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setMousePosition({ x: 50, y: 50 });
+      }}
+      onClick={onClick}
     >
-      {/* Card image */}
-      {imageSrc && (
-        <div className="relative w-full h-full">
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            className="w-full h-full object-cover"
-          />
-          {/* Image overlay for holographic effect */}
-          {holographic && (
-            <div
-              className={cn(
-                "card-image-shine absolute inset-0 pointer-events-none",
-                isHovered && "opacity-100"
+      <div className={cn("card-flipper", isFlipped && "flipped")}>
+        {/* Front face */}
+        <div className={cn("card-face", holographic && resolvedVariant !== "default" && variantClasses[resolvedVariant])}>
+          {/* Card image */}
+          {imageSrc && (
+            <div className="relative w-full h-full">
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+              {/* Shine overlay */}
+              {holographic && (
+                <div className={cn("card-image-shine", isHovered && "active")} />
               )}
-            />
+            </div>
+          )}
+
+          {/* Detailed mode overlays */}
+          {displayMode === "detailed" && (
+            <>
+              {manaCost !== undefined && (
+                <div className="card-mana-badge">{manaCost}</div>
+              )}
+              {civilization && (
+                <div className="card-civ-indicator">
+                  {civilization}
+                </div>
+              )}
+              <div className="card-detail-overlay">
+                <div className="card-detail-gradient">
+                  {name && (
+                    <span className="text-sm font-bold text-white truncate">
+                      {name}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {power !== undefined && (
+                <div className="card-power-badge">
+                  {power.toLocaleString()}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Sparkles for super rare */}
+          {rarity === "superRare" && sparkles.length > 0 && (
+            <div className="card-sparkles">
+              {sparkles.map((s) => (
+                <div
+                  key={s.id}
+                  className="card-sparkle"
+                  style={{
+                    left: s.left,
+                    top: s.top,
+                    animationDelay: s.delay,
+                    animationDuration: s.duration,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Custom children content */}
+          {children && (
+            <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10">
+              {children}
+            </div>
           )}
         </div>
-      )}
 
-      {/* Card content overlay */}
-      {children && (
-        <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10">
-          {children}
+        {/* Back face */}
+        <div className="card-face card-face-back">
+          {cardBackSrc ? (
+            <img
+              src={cardBackSrc}
+              alt="Card back"
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
+          ) : (
+            <div className="card-back-default">
+              <span className="card-back-logo">K</span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      {/* Enhanced border glow effect */}
-      {holographic && isHovered && <div className="card-border-glow active" />}
+      {/* Border glow */}
+      {holographic && isHovered && (
+        <div
+          className={cn(
+            "card-border-glow active",
+            resolvedVariant === "rainbow" ? "rainbow-glow" : "civ-glow"
+          )}
+        />
+      )}
     </div>
   );
+
+  // Wrap in tilt if enabled and not tapped/disabled/flipped
+  if (tiltEnabled && state === "normal" || state === "selected") {
+    return (
+      <Tilt
+        tiltMaxAngleX={tiltMaxAngle}
+        tiltMaxAngleY={tiltMaxAngle}
+        perspective={800}
+        scale={1.03}
+        transitionSpeed={400}
+        glareEnable={holographic && resolvedVariant !== "default"}
+        glareMaxOpacity={0.2}
+        glareColor={civColor ?? "#ffffff"}
+        glarePosition="all"
+        glareBorderRadius="16px"
+      >
+        {cardContent}
+      </Tilt>
+    );
+  }
+
+  return cardContent;
 }

@@ -111,6 +111,9 @@ importers:
       '@kaijudo/dashboard-creature-card':
         specifier: workspace:*
         version: link:../../packages/dashboard-creature-card
+      '@kaijudo/react-card':
+        specifier: workspace:*
+        version: link:../../packages/react-card
       '@kaijudo/react-card-images':
         specifier: workspace:*
         version: link:../../packages/react-card-images
@@ -1109,6 +1112,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      react-parallax-tilt:
+        specifier: ^1.7.320
+        version: 1.7.320(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       tailwind-merge:
         specifier: ^3.0.2
         version: 3.4.0
@@ -8452,6 +8458,12 @@ packages:
     peerDependencies:
       '@types/react': '>=18'
       react: '>=18'
+
+  react-parallax-tilt@1.7.320:
+    resolution: {integrity: sha512-odtUM1aUI3mQ2k+i5qDz/DfqzVAb/J0zJCUu5ofOMvOmNik0kMqWajAqV9LHJay0s6Mm7QBxvjrlU1dZCt4Ekg==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-refresh@0.18.0:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
@@ -17038,6 +17050,11 @@ snapshots:
       vfile: 6.0.3
     transitivePeerDependencies:
       - supports-color
+
+  react-parallax-tilt@1.7.320(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   react-refresh@0.18.0: {}
 

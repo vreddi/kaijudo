@@ -25,9 +25,12 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "react-parallax-tilt": "^1.7.320",
     "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@kaijudo/react-card-images": "workspace:*",
     "@kaijudo/react-storybook": "workspace:*",
     "@kaijudo/react-styling-config": "workspace:*",
@@ -38,8 +41,11 @@
     "@storybook/react": "*",
     "@storybook/react-vite": "*",
     "@storybook/test": "*",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "jsdom": "^27.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "storybook": "*",
@@ -47,20 +53,15 @@
     "typescript": "~5.9.2",
     "vite": "^7.1.7",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "jsdom": "^27.0.0",
-    "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/utilities": "^3.2.2"
+    "vitest": "^3.0.5"
   },
   "peerDependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@tailwindcss/vite": "^4.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/vite": "^4.0.0",
-    "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/utilities": "^3.2.2"
+    "tailwindcss": "^4.0.0"
   },
   "repository": {
     "type": "git",

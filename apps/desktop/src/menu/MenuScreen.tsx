@@ -8,6 +8,7 @@ import FriendsList from './FriendsList'
 import RecentMatches from './RecentMatches'
 import Goals from './Goals'
 import CollectionPage from './CollectionPage'
+import DeckBuilderPage from './DeckBuilderPage'
 
 function MenuScreen(): JSX.Element {
   const [activeTab, setActiveTab] = useState<SidebarTab>('home')
@@ -19,7 +20,7 @@ function MenuScreen(): JSX.Element {
         <TopBar />
         <div style={styles.content}>
           {activeTab === 'home' && <HomeContent />}
-          {activeTab === 'decks' && <PlaceholderPage title="Decks" />}
+          {activeTab === 'decks' && <DeckBuilderPage />}
           {activeTab === 'collection' && <CollectionPage />}
           {activeTab === 'play' && <PlaceholderPage title="Play" />}
           {activeTab === 'friends' && <PlaceholderPage title="Friends" />}
