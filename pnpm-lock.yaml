@@ -108,6 +108,15 @@ importers:
       '@clerk/clerk-react':
         specifier: ^5.56.2
         version: 5.56.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@kaijudo/dashboard-creature-card':
+        specifier: workspace:*
+        version: link:../../packages/dashboard-creature-card
+      '@kaijudo/react-card-images':
+        specifier: workspace:*
+        version: link:../../packages/react-card-images
+      '@kaijudo/react-game-types':
+        specifier: workspace:*
+        version: link:../../packages/react-game-types
       '@tauri-apps/api':
         specifier: ^2
         version: 2.10.1
@@ -118,6 +127,9 @@ importers:
         specifier: ^2.2.4
         version: 2.2.4
     devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.17
+        version: 4.1.17(vite@7.2.4(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.1))
       '@tauri-apps/cli':
         specifier: ^2
         version: 2.10.1
@@ -139,6 +151,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      tailwindcss:
+        specifier: ^4.1.17
+        version: 4.1.17
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
