@@ -15,6 +15,21 @@ function IntroVideo({ onComplete }: IntroVideoProps): JSX.Element {
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    const handleKey = () => onComplete()
+    const handleClick = (e: MouseEvent) => {
+      // Don't double-fire if they click the skip button
+      if ((e.target as HTMLElement).tagName === 'BUTTON') return
+      onComplete()
+    }
+    window.addEventListener('keydown', handleKey)
+    window.addEventListener('click', handleClick)
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+      window.removeEventListener('click', handleClick)
+    }
+  }, [onComplete])
+
   return (
     <div style={styles.container}>
       <video

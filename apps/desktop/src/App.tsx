@@ -1,24 +1,34 @@
 import { useState } from 'react'
 import Disclaimer from './Disclaimer'
 import IntroVideo from './IntroVideo'
+import TitleScreen from './TitleScreen'
+import AuthGate from './AuthGate'
+import MusicPlayer from './MusicPlayer'
 
-type Screen = 'disclaimer' | 'intro' | 'menu'
+type Screen = 'disclaimer' | 'intro' | 'title' | 'game'
 
 function App(): JSX.Element {
   const [screen, setScreen] = useState<Screen>('disclaimer')
+  const showMusic = screen === 'title' || screen === 'game'
 
-  if (screen === 'disclaimer') {
-    return <Disclaimer onAccept={() => setScreen('intro')} />
-  }
-
-  if (screen === 'intro') {
-    return <IntroVideo onComplete={() => setScreen('menu')} />
+  const goTo = (next: Screen) => {
+    setScreen(next)
   }
 
   return (
-    <div>
-      <h1>Kaijudo Desktop</h1>
-    </div>
+    <>
+      {screen === 'disclaimer' && (
+        <Disclaimer onAccept={() => goTo('intro')} />
+      )}
+      {screen === 'intro' && (
+        <IntroVideo onComplete={() => goTo('title')} />
+      )}
+      {screen === 'title' && (
+        <TitleScreen onStart={() => goTo('game')} />
+      )}
+      {screen === 'game' && <AuthGate />}
+      {showMusic && <MusicPlayer />}
+    </>
   )
 }
 

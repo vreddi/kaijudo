@@ -1,0 +1,16 @@
+[
+  {
+    "id": "bgm-1",
+    "file": "/music/bgm-1.m4a",
+    "title": "Yu-Gi-Oh! Master Duel BGM 1",
+    "artist": "Yu-Gi-Oh! Master Duel",
+    "cover": "/music/covers/cover.png"
+  },
+  {
+    "id": "bgm-2",
+    "file": "/music/bgm-2.m4a",
+    "title": "Yu-Gi-Oh! Master Duel BGM 2",
+    "artist": "Yu-Gi-Oh! Master Duel",
+    "cover": "/music/covers/cover.png"
+  }
+]
