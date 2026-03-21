@@ -2,28 +2,36 @@
   "name": "@kaijudo/desktop",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/desktop/src",
   "tags": [],
   "targets": {
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "electron-vite dev",
+        "command": "pnpm tauri dev",
         "cwd": "{projectRoot}"
       }
     },
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "electron-vite build",
+        "command": "pnpm tauri build",
         "cwd": "{projectRoot}"
       },
-      "outputs": ["{projectRoot}/out"]
+      "outputs": ["{projectRoot}/src-tauri/target"]
+    },
+    "build:frontend": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm vite build",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/dist"]
     },
     "preview": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "electron-vite preview",
+        "command": "pnpm vite preview",
         "cwd": "{projectRoot}"
       }
     }

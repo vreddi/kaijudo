@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <title>Kaijudo Desktop</title>
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
-    />
+    <!-- CSP is managed by Tauri's capabilities system -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body, #root { width: 100%; height: 100%; background: #0a0a0a; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

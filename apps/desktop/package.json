@@ -2,24 +2,22 @@
   "name": "@kaijudo/desktop",
   "version": "0.0.0",
   "private": true,
-  "main": "out/main/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "electron-vite dev",
-    "build": "electron-vite build",
-    "preview": "electron-vite preview",
-    "start": "electron-vite preview"
+    "dev": "tauri dev",
+    "dev:frontend": "vite",
+    "build": "tauri build",
+    "build:frontend": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@electron-toolkit/preload": "^3.0.1",
-    "@electron-toolkit/utils": "^3.0.0"
+    "@tauri-apps/api": "^2"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
+    "@tauri-apps/cli": "^2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
-    "electron": "^34.0.0",
-    "electron-vite": "^2.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "typescript": "^5.7.2",

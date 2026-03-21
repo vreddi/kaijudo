@@ -5,7 +5,6 @@ packages:
   - "tools"
 autoInstallPeers: true
 onlyBuiltDependencies:
-  - electron
   - esbuild
   - "@biomejs/biome"
   - sharp
