@@ -1,0 +1,92 @@
+language: "en-US"
+tone_instructions: "Be direct and concise. Focus on bugs, type safety, and game logic correctness. This is a Duel Masters TCG game engine — flag any rule violations."
+early_access: false
+enable_free_tier: true
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  high_level_summary_in_walkthrough: false
+  review_status: true
+  commit_status: true
+  fail_commit_status: false
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  estimate_code_review_effort: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  suggested_reviewers: false
+  poem: false
+  in_progress_fortune: false
+
+  path_filters:
+    - "!**/dist/**"
+    - "!**/node_modules/**"
+    - "!**/.storybook/**"
+    - "!**/storybook-static/**"
+    - "!**/pnpm-lock.yaml"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+    - "!**/_generated/**"
+    - "!**/public/data/card-images/**"
+
+  path_instructions:
+    - path: "packages/game-engine/**"
+      instructions: >
+        This is the core game engine for a Duel Masters TCG. Review for:
+        1. Correctness against Duel Masters rules (40-card deck, 5 shields, 5 civilizations, summoning sickness, mana charging)
+        2. Immutable state updates — processAction must return new state, never mutate
+        3. Type safety — no `any`, strict TypeScript
+        4. Test coverage — all game logic must be tested
+        5. Action validation — ensure invalid actions are rejected with clear errors
+    - path: "packages/react-game-ui/**"
+      instructions: >
+        Game UI components. Review for:
+        1. Accessibility (keyboard navigation, ARIA labels)
+        2. Responsive design (must work at 900x670 Tauri window minimum)
+        3. Consistent use of civilization color system (Light=gold, Water=blue, Darkness=purple, Fire=red, Nature=green)
+        4. Motion library usage for animations (not raw CSS transitions for complex effects)
+        5. Component exports from package index
+    - path: "packages/react-game-types/**"
+      instructions: >
+        Shared game type definitions. Review for type completeness, JSDoc documentation,
+        and alignment with Duel Masters game rules.
+    - path: "apps/desktop/**"
+      instructions: >
+        Tauri desktop app. Review for: Tauri v2 API usage, CSP compliance,
+        no hardcoded URLs, proper Clerk/Convex provider nesting.
+    - path: "packages/backend/**"
+      instructions: >
+        Convex backend. Review for: proper use of Convex validators (v.string(), v.id(), etc.),
+        index definitions, and auth context usage.
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    base_branches:
+      - "develop"
+      - "main"
+
+  tools:
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  learnings:
+    scope: "auto"
+  issues:
+    scope: "auto"
+  pull_requests:
+    scope: "auto"
