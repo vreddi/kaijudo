@@ -195,21 +195,28 @@ export function Card({
       <div className={cn("card-flipper", isFlipped && "flipped")}>
         {/* Front face */}
         <div className={cn("card-face", holographic && resolvedVariant !== "default" && variantClasses[resolvedVariant])}>
-          {/* Card image */}
-          {imageSrc && (
-            <div className="relative w-full h-full">
-              <img
-                src={imageSrc}
-                alt={imageAlt}
-                className="w-full h-full object-cover"
-                draggable={false}
-              />
-              {/* Shine overlay */}
-              {holographic && (
-                <div className={cn("card-image-shine", isHovered && "active")} />
-              )}
-            </div>
-          )}
+          {/* Card image or placeholder */}
+          <div className="relative w-full h-full">
+            {imageSrc ? (
+              <>
+                <img
+                  src={imageSrc}
+                  alt={imageAlt}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                {holographic && (
+                  <div className={cn("card-image-shine", isHovered && "active")} />
+                )}
+              </>
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 flex items-center justify-center">
+                <span className="text-slate-600 text-[10px] text-center px-2 font-medium">
+                  {name || imageAlt}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* Detailed mode overlays */}
           {displayMode === "detailed" && (
