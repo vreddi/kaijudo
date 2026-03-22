@@ -20,8 +20,8 @@ const updated = cards.map(card => {
     return { ...card, imageSrc: `/data/card-images/${card.id}.webp` };
   }
   remoteCount++;
-  return { ...card, imageSrc: `https://img.duelmasters.us/${card.id}.webp` };
+  return { ...card, imageSrc: '' };
 });
 
 fs.writeFileSync(dataFile, JSON.stringify(updated, null, 2));
-console.log(`Updated ${cards.length} cards: ${localCount} local, ${remoteCount} remote.`);
+console.log(`Updated ${cards.length} cards: ${localCount} local, ${remoteCount} blank (no image yet).`);

@@ -20,7 +20,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self' https://*.clerk.accounts.dev https://*.clerk.com; img-src 'self' asset: https://asset.localhost https://img.clerk.com https://*.clerk.com https://img.duelmasters.us; style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://*.convex.cloud wss://*.convex.cloud; frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:; font-src 'self' https://*.clerk.com https://*.gstatic.com; media-src 'self' asset: https://asset.localhost"
+      "csp": "default-src 'self' https://*.clerk.accounts.dev https://*.clerk.com; img-src 'self' asset: https://asset.localhost https://img.clerk.com https://*.clerk.com; style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://*.convex.cloud wss://*.convex.cloud; frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:; font-src 'self' https://*.clerk.com https://*.gstatic.com; media-src 'self' asset: https://asset.localhost"
     }
   },
   "bundle": {

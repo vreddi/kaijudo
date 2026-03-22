@@ -166,7 +166,7 @@ function DeckBuilderPage(): JSX.Element {
 
         {/* Filters */}
         <div className="flex gap-1.5 flex-wrap">
-          {(['all', ...Object.values(Civilization)] as CivFilter[]).map((civ) => (
+          {['all', 'Light', 'Water', 'Darkness', 'Fire', 'Nature'].map((civ) => (
             <button
               key={civ}
               onClick={() => setFilter(civ)}
