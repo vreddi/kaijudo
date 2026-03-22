@@ -1,2 +1,4 @@
 # Vite build output
 dist/
+
+.env.local
