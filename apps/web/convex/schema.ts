@@ -18,4 +18,25 @@ export default defineSchema({
       })
     )
   ).index("by_name", ["name"]),
+
+  userSettings: defineTable({
+    userId: v.string(),
+    musicVolume: v.number(),
+    sfxVolume: v.number(),
+    musicEnabled: v.boolean(),
+    animationSpeed: v.union(
+      v.literal("normal"),
+      v.literal("fast"),
+      v.literal("off")
+    ),
+    cardArtQuality: v.union(
+      v.literal("low"),
+      v.literal("medium"),
+      v.literal("high")
+    ),
+    reducedMotion: v.boolean(),
+    autoPassPriority: v.boolean(),
+    confirmBeforeAttacking: v.boolean(),
+    showCardTooltips: v.boolean(),
+  }).index("by_userId", ["userId"]),
 });

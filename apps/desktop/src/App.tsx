@@ -4,12 +4,12 @@ import IntroVideo from './IntroVideo'
 import TitleScreen from './TitleScreen'
 import AuthGate from './AuthGate'
 import MusicPlayer from './MusicPlayer'
+import { SettingsProvider } from './contexts/SettingsContext'
 
 type Screen = 'disclaimer' | 'intro' | 'title' | 'game'
 
 function App(): JSX.Element {
   const [screen, setScreen] = useState<Screen>('disclaimer')
-  const showMusic = screen === 'title' || screen === 'game'
 
   const goTo = (next: Screen) => {
     setScreen(next)
@@ -24,10 +24,17 @@ function App(): JSX.Element {
         <IntroVideo onComplete={() => goTo('title')} />
       )}
       {screen === 'title' && (
-        <TitleScreen onStart={() => goTo('game')} />
+        <>
+          <TitleScreen onStart={() => goTo('game')} />
+          <MusicPlayer />
+        </>
       )}
-      {screen === 'game' && <AuthGate />}
-      {showMusic && <MusicPlayer />}
+      {screen === 'game' && (
+        <SettingsProvider>
+          <AuthGate />
+          <MusicPlayer />
+        </SettingsProvider>
+      )}
     </>
   )
 }

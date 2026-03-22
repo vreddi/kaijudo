@@ -7,8 +7,11 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@convex/*": ["../web/convex/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../web/convex/**/*"],
   "exclude": ["src-tauri"]
 }
