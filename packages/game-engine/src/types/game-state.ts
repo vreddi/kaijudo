@@ -50,18 +50,19 @@ export interface GameState {
   /** Match timer state. */
   timer: MatchTimer;
   /** Ordered event log for replay and UI. */
-  eventLog: GameEvent[];
+  eventLog: readonly GameEvent[];
   /** Monotonic counter for event sequence numbers. */
   nextEventSeq: number;
   /** Result if game is completed, null otherwise. */
   result: MatchResult | null;
-  /** Timestamp when the game started. */
-  startedAt: number;
+  /** Timestamp when the game started. null if status is Waiting. */
+  startedAt: number | null;
 }
 
 /**
  * A view of the game state visible to a specific player.
  * Hides opponent's hand and deck contents.
+ * Event log and startedAt are included since they are public information.
  */
 export interface VisibleGameState {
   gameId: string;
@@ -78,7 +79,7 @@ export interface VisibleGameState {
     battleZone: PlayerState["battleZone"];
     manaZone: PlayerState["manaZone"];
     shieldCount: number;
-    graveyardCount: number;
+    /** Graveyard is public information in Duel Masters. */
     graveyard: PlayerState["graveyard"];
     hasChargedMana: boolean;
   };
@@ -86,5 +87,9 @@ export interface VisibleGameState {
   turnNumber: number;
   currentPhase: TurnPhase;
   timer: MatchTimer;
+  /** Ordered event log — public information for both players. */
+  eventLog: readonly GameEvent[];
+  /** Timestamp when the game started. null if status is Waiting. */
+  startedAt: number | null;
   result: MatchResult | null;
 }

@@ -3,24 +3,25 @@ import type { GameCard, CreatureInBattle, CardInMana } from "./card-in-play";
 /**
  * Complete state for one player during a game.
  * Each zone contains the appropriate card representation.
+ * All arrays are readonly to enforce immutable state updates.
  */
 export interface PlayerState {
   /** Player identifier (1 or 2). */
-  playerId: 1 | 2;
+  readonly playerId: 1 | 2;
   /** Player display name. */
-  name: string;
+  readonly name: string;
   /** Cards remaining in the deck (top = index 0). */
-  deck: GameCard[];
+  readonly deck: readonly GameCard[];
   /** Cards in hand. */
-  hand: GameCard[];
+  readonly hand: readonly GameCard[];
   /** Creatures in the battle zone. */
-  battleZone: CreatureInBattle[];
+  readonly battleZone: readonly CreatureInBattle[];
   /** Cards in the mana zone. */
-  manaZone: CardInMana[];
+  readonly manaZone: readonly CardInMana[];
   /** Shield cards (face-down). */
-  shieldZone: GameCard[];
+  readonly shieldZone: readonly GameCard[];
   /** Cards in the graveyard (most recent = last index). */
-  graveyard: GameCard[];
+  readonly graveyard: readonly GameCard[];
   /** Whether this player has charged mana this turn. */
-  hasChargedMana: boolean;
+  readonly hasChargedMana: boolean;
 }

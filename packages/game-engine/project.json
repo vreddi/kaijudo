@@ -2,7 +2,7 @@
   "name": "@kaijudo/game-engine",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "src",
+  "sourceRoot": "packages/game-engine/src",
   "tags": ["publishable"],
   "targets": {
     "build": {
@@ -17,7 +17,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "vitest run",
-        "cwd": "."
+        "cwd": "{projectRoot}"
       }
     }
   }

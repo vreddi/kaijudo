@@ -32,7 +32,7 @@ export const TIMER_CRITICAL_MS = 1 * 60 * 1000;
 
 /** Get the timer status for a given remaining time. */
 export function getTimerStatus(remainingMs: number): TimerStatus {
-  if (remainingMs <= 0) return TimerStatus.Expired;
+  if (!Number.isFinite(remainingMs) || remainingMs <= 0) return TimerStatus.Expired;
   if (remainingMs <= TIMER_CRITICAL_MS) return TimerStatus.Critical;
   if (remainingMs <= TIMER_WARNING_MS) return TimerStatus.Warning;
   return TimerStatus.Normal;

@@ -1,9 +1,12 @@
 import type { GameAction } from "./actions";
 import type { TurnPhase } from "./turn-phase";
+import type { TimerStatus } from "./timer";
 
 /**
  * Events emitted during gameplay for UI updates, logging, and replay.
- * Each event is timestamped and contains the action that triggered it.
+ * Each event is timestamped with a monotonic sequence number.
+ * Only `ActionEvent` contains the triggering action; other events
+ * carry domain-specific payloads.
  */
 export type GameEvent =
   | ActionEvent
@@ -14,7 +17,8 @@ export type GameEvent =
   | GameOverEvent
   | TimerWarningEvent;
 
-interface BaseEvent {
+/** Common fields shared by all game events. */
+export interface BaseEvent {
   /** Monotonic event sequence number. */
   seq: number;
   /** Timestamp in ms (Date.now()). */
@@ -72,12 +76,12 @@ export interface GameOverEvent extends BaseEvent {
   reason: GameOverReason;
 }
 
-/** Timer threshold crossed. */
+/** Timer threshold crossed. Reuses TimerStatus to stay in sync with timer.ts. */
 export interface TimerWarningEvent extends BaseEvent {
   type: "timerWarning";
   player: 1 | 2;
   remainingMs: number;
-  severity: "warning" | "critical" | "expired";
+  severity: Exclude<TimerStatus, TimerStatus.Normal>;
 }
 
 /** Reasons a game can end. */

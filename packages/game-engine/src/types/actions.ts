@@ -45,6 +45,8 @@ export interface CastSpellAction {
   cardInstanceId: string;
   /** Instance IDs of mana cards to tap for payment. */
   manaTapIds: string[];
+  /** Target instance IDs for spells that require targets (e.g., "destroy target creature"). */
+  targetInstanceIds?: string[];
 }
 
 /** Attack an opponent's creature in the battle zone. */

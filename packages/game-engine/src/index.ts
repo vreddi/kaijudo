@@ -21,6 +21,7 @@ export type {
   SurrenderAction,
 } from "./types/actions";
 export type {
+  BaseEvent,
   GameEvent,
   ActionEvent,
   PhaseChangeEvent,
