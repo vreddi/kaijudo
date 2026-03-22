@@ -1,0 +1,38 @@
+# Kaijudo Game UI Design System
+
+## Project Overview
+Kaijudo is a digital card game based on Duel Masters TCG rules. This is an Nx monorepo with React 19, TypeScript, Tailwind CSS 4, Tauri (desktop), Convex (backend), and Clerk (auth).
+
+## Design Aesthetic
+Premium fantasy TCG client inspired by WarcraftCN (https://www.warcraftcn.com/) component techniques but with a Duel Masters / Japanese anime aesthetic. NOT a WarcraftCN clone — we use their CSS techniques (border-image frames, glow effects, textured backgrounds) adapted to our civilization color system.
+
+## Civilization Color Tokens
+- Light (Gold): #FFD700 primary, #FFF8DC glow
+- Water (Blue): #1E90FF primary, #87CEEB glow
+- Darkness (Purple): #8B00FF primary, #DDA0DD glow
+- Fire (Red): #FF4500 primary, #FF6347 glow
+- Nature (Green): #32CD32 primary, #90EE90 glow
+- Neutral UI: #1a1a2e bg, #16213e panels, #e0e0e0 text
+
+## Key Conventions
+- Dark-first design — all components assume dark backgrounds
+- Use Tailwind CSS 4 (NOT inline styles)
+- Use Motion library for animations (200-400ms interactions, up to 800ms dramatic)
+- Use Radix UI for accessible primitives
+- Components go in packages/ (monorepo), not directly in apps/
+- Always accept `civilization` prop for themed components
+- Support size variants: sm, md, lg
+- Respect prefers-reduced-motion
+
+## Game Architecture
+- `packages/game-engine/` — Pure TypeScript game logic, no React
+- `packages/react-game-ui/` — Battlefield components, zone displays, indicators
+- `packages/react-game-types/` — Shared types (Civilization, Rarity, Race, Creature)
+- `packages/react-card/` — Card component with 3D tilt and holographic effects
+
+## Duel Masters Game Rules (for context)
+- 40-card deck, 5 shields, 5-card opening hand
+- Zones: Hand, Battle Zone, Mana Zone, Shield Zone, Graveyard, Deck
+- Turn: Untap → Draw → Charge Mana → Summon/Cast → Attack
+- Summoning sickness on creatures
+- Win: break all shields + direct attack, or opponent decks out
