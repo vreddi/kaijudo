@@ -1,8 +1,18 @@
 import { useState } from 'react'
 import { useUser, useClerk } from '@clerk/clerk-react'
-import { theme } from './theme'
 import { useSettingsContext } from '../contexts/SettingsContext'
 import type { UserSettings } from '../hooks/useSettings'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/warcraftcn/card'
+import { Checkbox } from '@/components/ui/warcraftcn/checkbox'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/warcraftcn/radio-group'
+import { Label } from '@/components/ui/warcraftcn/label'
+import { Button } from '@/components/ui/warcraftcn/button'
+import '@/components/ui/warcraftcn/styles/warcraft.css'
 
 function SettingsPage(): JSX.Element {
   const { settings, updateSetting, isLoading } = useSettingsContext()
@@ -22,131 +32,190 @@ function SettingsPage(): JSX.Element {
 
   if (isLoading) {
     return (
-      <div style={styles.container}>
-        <p style={{ color: theme.textMuted, fontSize: 14 }}>Loading settings...</p>
+      <div className="flex flex-col gap-5 max-w-[640px]">
+        <p className="fantasy text-amber-200/60 text-sm">Loading settings...</p>
       </div>
     )
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <h2 style={styles.pageTitle}>Settings</h2>
+    <div className="flex flex-col gap-5 max-w-[640px]">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <h2 className="fantasy text-2xl font-bold text-amber-100 [text-shadow:0_0_20px_rgba(251,191,36,0.3),0_1px_2px_rgba(0,0,0,0.5)] tracking-wide m-0">
+          Settings
+        </h2>
         <span
+          className="fantasy text-xs font-bold text-green-400 [text-shadow:0_0_8px_rgba(74,222,128,0.5)] uppercase tracking-wider transition-all duration-400"
           style={{
-            ...styles.savedBadge,
             opacity: saved ? 1 : 0,
-            transform: saved ? 'translateY(0)' : 'translateY(-4px)',
+            transform: saved ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(0.9)',
           }}
         >
           Saved
         </span>
       </div>
 
-      <Section title="Audio">
-        <SliderRow
-          label="Music Volume"
-          value={settings.musicVolume}
-          onChange={(v) => handleUpdate('musicVolume', v)}
-        />
-        <SliderRow
-          label="Sound Effects"
-          value={settings.sfxVolume}
-          onChange={(v) => handleUpdate('sfxVolume', v)}
-        />
-        <ToggleRow
-          label="Music Enabled"
-          value={settings.musicEnabled}
-          onChange={(v) => handleUpdate('musicEnabled', v)}
-        />
-      </Section>
-
-      <Section title="Display">
-        <SelectRow
-          label="Animation Speed"
-          value={settings.animationSpeed}
-          options={[
-            { value: 'normal', label: 'Normal' },
-            { value: 'fast', label: 'Fast' },
-            { value: 'off', label: 'Off' },
-          ]}
-          onChange={(v) => handleUpdate('animationSpeed', v as UserSettings['animationSpeed'])}
-        />
-        <SelectRow
-          label="Card Art Quality"
-          value={settings.cardArtQuality}
-          options={[
-            { value: 'low', label: 'Low' },
-            { value: 'medium', label: 'Medium' },
-            { value: 'high', label: 'High' },
-          ]}
-          onChange={(v) => handleUpdate('cardArtQuality', v as UserSettings['cardArtQuality'])}
-        />
-        <ToggleRow
-          label="Reduced Motion"
-          value={settings.reducedMotion}
-          onChange={(v) => handleUpdate('reducedMotion', v)}
-        />
-      </Section>
-
-      <Section title="Gameplay">
-        <ToggleRow
-          label="Auto-pass Priority"
-          value={settings.autoPassPriority}
-          onChange={(v) => handleUpdate('autoPassPriority', v)}
-        />
-        <ToggleRow
-          label="Confirm Before Attacking"
-          value={settings.confirmBeforeAttacking}
-          onChange={(v) => handleUpdate('confirmBeforeAttacking', v)}
-        />
-        <ToggleRow
-          label="Show Card Tooltips"
-          value={settings.showCardTooltips}
-          onChange={(v) => handleUpdate('showCardTooltips', v)}
-        />
-      </Section>
-
-      <Section title="Account">
-        {user && (
-          <div style={styles.accountRow}>
-            <img
-              src={user.imageUrl}
-              alt=""
-              style={styles.avatar}
+      {/* Audio */}
+      <Card data-size="sm">
+        <CardHeader>
+          <CardTitle>
+            <span className="text-amber-200 [text-shadow:0_0_10px_rgba(251,191,36,0.3)] uppercase tracking-[1.5px] text-xs font-bold">
+              ♪ Audio
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <SliderRow
+            label="Music Volume"
+            value={settings.musicVolume}
+            onChange={(v) => handleUpdate('musicVolume', v)}
+          />
+          <SliderRow
+            label="Sound Effects"
+            value={settings.sfxVolume}
+            onChange={(v) => handleUpdate('sfxVolume', v)}
+          />
+          <div className="flex items-center justify-between">
+            <Label>Music Enabled</Label>
+            <Checkbox
+              checked={settings.musicEnabled}
+              onCheckedChange={(checked) => handleUpdate('musicEnabled', checked === true)}
             />
-            <div>
-              <div style={styles.userName}>
-                {user.fullName ?? user.primaryEmailAddress?.emailAddress ?? 'User'}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Display */}
+      <Card data-size="sm">
+        <CardHeader>
+          <CardTitle>
+            <span className="text-amber-200 [text-shadow:0_0_10px_rgba(251,191,36,0.3)] uppercase tracking-[1.5px] text-xs font-bold">
+              ◈ Display
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <Label>Animation Speed</Label>
+            <RadioGroup
+              value={settings.animationSpeed}
+              onValueChange={(v) => handleUpdate('animationSpeed', v as UserSettings['animationSpeed'])}
+              orientation="horizontal"
+            >
+              {[
+                { value: 'normal', label: 'Normal' },
+                { value: 'fast', label: 'Fast' },
+                { value: 'off', label: 'Off' },
+              ].map((opt) => (
+                <label key={opt.value} className="fantasy inline-flex items-center gap-2 cursor-pointer text-sm text-amber-100/80">
+                  <RadioGroupItem value={opt.value} />
+                  {opt.label}
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label>Card Art Quality</Label>
+            <RadioGroup
+              value={settings.cardArtQuality}
+              onValueChange={(v) => handleUpdate('cardArtQuality', v as UserSettings['cardArtQuality'])}
+              orientation="horizontal"
+            >
+              {[
+                { value: 'low', label: 'Low' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'high', label: 'High' },
+              ].map((opt) => (
+                <label key={opt.value} className="fantasy inline-flex items-center gap-2 cursor-pointer text-sm text-amber-100/80">
+                  <RadioGroupItem value={opt.value} />
+                  {opt.label}
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Reduced Motion</Label>
+            <Checkbox
+              checked={settings.reducedMotion}
+              onCheckedChange={(checked) => handleUpdate('reducedMotion', checked === true)}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Gameplay */}
+      <Card data-size="sm">
+        <CardHeader>
+          <CardTitle>
+            <span className="text-amber-200 [text-shadow:0_0_10px_rgba(251,191,36,0.3)] uppercase tracking-[1.5px] text-xs font-bold">
+              ⚔ Gameplay
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <Label>Auto-pass Priority</Label>
+            <Checkbox
+              checked={settings.autoPassPriority}
+              onCheckedChange={(checked) => handleUpdate('autoPassPriority', checked === true)}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Confirm Before Attacking</Label>
+            <Checkbox
+              checked={settings.confirmBeforeAttacking}
+              onCheckedChange={(checked) => handleUpdate('confirmBeforeAttacking', checked === true)}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label>Show Card Tooltips</Label>
+            <Checkbox
+              checked={settings.showCardTooltips}
+              onCheckedChange={(checked) => handleUpdate('showCardTooltips', checked === true)}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Account */}
+      <Card data-size="sm">
+        <CardHeader>
+          <CardTitle>
+            <span className="text-amber-200 [text-shadow:0_0_10px_rgba(251,191,36,0.3)] uppercase tracking-[1.5px] text-xs font-bold">
+              ◉ Account
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          {user && (
+            <div className="flex items-center gap-3.5 mb-1">
+              <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-br from-amber-400 to-amber-700 shadow-[0_0_10px_rgba(212,160,23,0.25)] shrink-0">
+                <img
+                  src={user.imageUrl}
+                  alt=""
+                  className="w-full h-full rounded-full object-cover block"
+                />
               </div>
-              <div style={styles.userEmail}>
-                {user.primaryEmailAddress?.emailAddress}
+              <div>
+                <div className="fantasy text-sm font-bold text-amber-100 tracking-wide">
+                  {user.fullName ?? user.primaryEmailAddress?.emailAddress ?? 'User'}
+                </div>
+                <div className="text-xs text-amber-200/40 mt-0.5">
+                  {user.primaryEmailAddress?.emailAddress}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <button
-          style={styles.signOutBtn}
-          onClick={() => clerk.signOut()}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(230, 57, 70, 0.3)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(230, 57, 70, 0.15)'
-          }}
-        >
-          Sign Out
-        </button>
-      </Section>
-    </div>
-  )
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }): JSX.Element {
-  return (
-    <div style={styles.section}>
-      <h3 style={styles.sectionTitle}>{title}</h3>
-      <div style={styles.sectionContent}>{children}</div>
+          )}
+          <Button
+            variant="default"
+            className="self-start text-red-400 hover:text-red-300"
+            onClick={() => clerk.signOut()}
+          >
+            Sign Out
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   )
 }
@@ -160,217 +229,32 @@ function SliderRow({
   value: number
   onChange: (v: number) => void
 }): JSX.Element {
+  const pct = Math.round(value * 100)
   return (
-    <div style={styles.row}>
-      <span style={styles.label}>{label}</span>
-      <div style={styles.sliderGroup}>
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          style={styles.slider}
-        />
-        <span style={styles.sliderValue}>{Math.round(value * 100)}%</span>
+    <div className="flex items-center justify-between gap-4">
+      <Label>{label}</Label>
+      <div className="flex items-center gap-3">
+        <div className="relative w-[150px] h-1.5 rounded-full bg-white/8 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)] overflow-hidden">
+          <div
+            className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-amber-700 to-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.3)] pointer-events-none"
+            style={{ width: `${pct}%`, transition: 'width 0.05s ease-out' }}
+          />
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+            className="absolute -top-1.5 -left-0.5 w-[calc(100%+4px)] h-[18px] m-0 opacity-0 cursor-pointer z-[2]"
+          />
+        </div>
+        <span className="fantasy text-xs font-bold text-amber-400 w-9 text-right tabular-nums [text-shadow:0_0_6px_rgba(251,191,36,0.3)]">
+          {pct}%
+        </span>
       </div>
     </div>
   )
-}
-
-function ToggleRow({
-  label,
-  value,
-  onChange,
-}: {
-  label: string
-  value: boolean
-  onChange: (v: boolean) => void
-}): JSX.Element {
-  return (
-    <div style={styles.row}>
-      <span style={styles.label}>{label}</span>
-      <div
-        onClick={() => onChange(!value)}
-        style={{
-          ...styles.toggle,
-          background: value ? theme.accent : 'rgba(255, 255, 255, 0.1)',
-        }}
-      >
-        <div
-          style={{
-            ...styles.toggleKnob,
-            transform: value ? 'translateX(18px)' : 'translateX(0)',
-          }}
-        />
-      </div>
-    </div>
-  )
-}
-
-function SelectRow({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string
-  value: string
-  options: { value: string; label: string }[]
-  onChange: (v: string) => void
-}): JSX.Element {
-  return (
-    <div style={styles.row}>
-      <span style={styles.label}>{label}</span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={styles.select}
-      >
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 20,
-    maxWidth: 640,
-  },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-  },
-  pageTitle: {
-    fontSize: 22,
-    fontWeight: 700,
-    color: theme.text,
-    margin: 0,
-  },
-  savedBadge: {
-    fontSize: 11,
-    fontWeight: 600,
-    color: theme.accentGreen,
-    transition: 'opacity 0.3s ease, transform 0.3s ease',
-  },
-  section: {
-    ...theme.glass,
-    padding: 20,
-  } as React.CSSProperties,
-  sectionTitle: {
-    fontSize: 13,
-    fontWeight: 700,
-    color: theme.accent,
-    textTransform: 'uppercase' as const,
-    letterSpacing: '1px',
-    margin: '0 0 16px 0',
-  },
-  sectionContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 14,
-  },
-  row: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 16,
-  },
-  label: {
-    fontSize: 13,
-    fontWeight: 500,
-    color: theme.text,
-  },
-  sliderGroup: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-  },
-  slider: {
-    width: 140,
-    accentColor: theme.accent,
-    cursor: 'pointer',
-  },
-  sliderValue: {
-    fontSize: 12,
-    fontWeight: 600,
-    color: theme.textMuted,
-    width: 36,
-    textAlign: 'right' as const,
-  },
-  toggle: {
-    width: 40,
-    height: 22,
-    borderRadius: 11,
-    cursor: 'pointer',
-    position: 'relative' as const,
-    transition: 'background 0.2s ease',
-    flexShrink: 0,
-  },
-  toggleKnob: {
-    width: 18,
-    height: 18,
-    borderRadius: '50%',
-    background: '#fff',
-    position: 'absolute' as const,
-    top: 2,
-    left: 2,
-    transition: 'transform 0.2s ease',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
-  },
-  select: {
-    fontSize: 13,
-    padding: '6px 10px',
-    borderRadius: 8,
-    border: `1px solid ${theme.borderLight}`,
-    background: theme.bgCardSolid,
-    color: theme.text,
-    cursor: 'pointer',
-    outline: 'none',
-  },
-  accountRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 4,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: '50%',
-    objectFit: 'cover' as const,
-  },
-  userName: {
-    fontSize: 14,
-    fontWeight: 600,
-    color: theme.text,
-  },
-  userEmail: {
-    fontSize: 12,
-    color: theme.textMuted,
-    marginTop: 2,
-  },
-  signOutBtn: {
-    fontSize: 13,
-    fontWeight: 600,
-    color: theme.accentRed,
-    background: 'rgba(230, 57, 70, 0.15)',
-    border: `1px solid rgba(230, 57, 70, 0.3)`,
-    borderRadius: 8,
-    padding: '8px 16px',
-    cursor: 'pointer',
-    transition: 'background 0.2s ease',
-    alignSelf: 'flex-start',
-  },
 }
 
 export default SettingsPage
