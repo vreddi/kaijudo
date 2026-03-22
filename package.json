@@ -6,7 +6,8 @@
     "test": "nx run-many --target=test --all",
     "mcp": "nx-mcp",
     "storybook": "nx storybook @kaijudo/storybook-app",
-    "mcp:start": "nx-mcp ."
+    "mcp:start": "nx-mcp .",
+    "clean:branches": "bash scripts/clean-branches.sh"
   },
   "private": true,
   "devDependencies": {
