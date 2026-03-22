@@ -4,8 +4,8 @@ Planned features for Kaijudo, roughly ordered by priority and dependency.
 
 ## Upcoming
 
-### 1. Deck Builder
-Build and edit decks from the card collection. Drag-and-drop cards, enforce 40-card limit, civilization restrictions, deck naming. Core prerequisite for gameplay.
+### 1. Card Image API / Storage Service
+Self-hosted image service for card artwork. Currently images are downloaded locally from db.duelmasters.us and gitignored. Goal: host card images on our own infrastructure (S3/Cloudflare R2/similar) with a queryable API so all clients (desktop, web, mobile) can fetch card art from a single source.
 
 ### 2. Play / Matchmaking Lobby
 "Find Match" screen with casual and ranked queues. Queue selection UI, searching animation, opponent-found transition.
@@ -31,3 +31,7 @@ Music volume control, display settings, account management, sign out.
 - [x] Menu dashboard (stats, decks, friends, recent matches, goals)
 - [x] Card collection page with civilization filters, search, and detail modal
 - [x] Creature type and game types package
+- [x] Enhanced card component with 3D tilt, holographic effects, civilization glow
+- [x] Deck builder with mana curve, civilization distribution, and 40-card enforcement
+- [x] Full card database scraped (2,647 cards across 35 sets from db.duelmasters.us)
+- [x] Comprehensive Duel Masters game rules reference document

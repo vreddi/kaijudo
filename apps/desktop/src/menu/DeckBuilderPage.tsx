@@ -1,29 +1,33 @@
-import { useState, useMemo, useCallback } from 'react'
-import { Civilization } from '@kaijudo/react-game-types'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { Card, CardSize } from '@kaijudo/react-card'
-import { allCards, type CollectionCard } from './collectionData'
+import { loadAllCards, getPrimaryCiv, normalizeRarity, normalizeCiv, type CollectionCard } from './collectionData'
 import { theme } from './theme'
 
 const MAX_DECK_SIZE = 40
 const MAX_COPIES = 4
 
-type CivFilter = 'all' | Civilization
+type CivFilter = string
 
 const civLabels: Record<string, string> = {
   all: 'All',
-  [Civilization.Light]: 'Light',
-  [Civilization.Water]: 'Water',
-  [Civilization.Darkness]: 'Darkness',
-  [Civilization.Fire]: 'Fire',
-  [Civilization.Nature]: 'Nature',
+  Light: 'Light',
+  Water: 'Water',
+  Darkness: 'Darkness',
+  Fire: 'Fire',
+  Nature: 'Nature',
 }
 
 const civColors: Record<string, string> = {
-  [Civilization.Light]: '#e6c619',
-  [Civilization.Water]: '#1e90ff',
-  [Civilization.Darkness]: '#9b59b6',
-  [Civilization.Fire]: '#e63946',
-  [Civilization.Nature]: '#2d9e5c',
+  Light: '#e6c619',
+  Water: '#1e90ff',
+  Darkness: '#9b59b6',
+  Fire: '#e63946',
+  Nature: '#2d9e5c',
+  light: '#e6c619',
+  water: '#1e90ff',
+  darkness: '#9b59b6',
+  fire: '#e63946',
+  nature: '#2d9e5c',
 }
 
 interface DeckEntry {
@@ -32,11 +36,20 @@ interface DeckEntry {
 }
 
 function DeckBuilderPage(): JSX.Element {
+  const [allCards, setAllCards] = useState<CollectionCard[]>([])
+  const [loading, setLoading] = useState(true)
   const [deckName, setDeckName] = useState('New Deck')
   const [deck, setDeck] = useState<DeckEntry[]>([])
   const [filter, setFilter] = useState<CivFilter>('all')
   const [search, setSearch] = useState('')
   const [costFilter, setCostFilter] = useState<number | null>(null)
+
+  useEffect(() => {
+    loadAllCards().then((cards) => {
+      setAllCards(cards)
+      setLoading(false)
+    })
+  }, [])
 
   const totalCards = deck.reduce((sum, e) => sum + e.count, 0)
 
@@ -73,13 +86,16 @@ function DeckBuilderPage(): JSX.Element {
 
   const filtered = useMemo(() => {
     return allCards.filter((card) => {
-      if (filter !== 'all' && card.civilization !== filter) return false
+      if (filter !== 'all') {
+        const civs = Array.isArray(card.civilization) ? card.civilization : [card.civilization]
+        if (!civs.some((c) => c === filter)) return false
+      }
       if (search && !card.name.toLowerCase().includes(search.toLowerCase())) return false
       if (costFilter !== null) {
         if (costFilter >= 7) {
-          if (card.manaCost < 7) return false
+          if (card.cost < 7) return false
         } else {
-          if (card.manaCost !== costFilter) return false
+          if (card.cost !== costFilter) return false
         }
       }
       return true
@@ -95,12 +111,16 @@ function DeckBuilderPage(): JSX.Element {
     let creatureCount = 0
 
     for (const entry of deck) {
-      const civ = entry.card.civilization
-      civCounts[civ] = (civCounts[civ] ?? 0) + entry.count
-      const cost = Math.min(entry.card.manaCost, 7)
+      const civs = Array.isArray(entry.card.civilization) ? entry.card.civilization : [entry.card.civilization]
+      for (const civ of civs) {
+        civCounts[civ] = (civCounts[civ] ?? 0) + entry.count
+      }
+      const cost = Math.min(entry.card.cost, 7)
       manaCurve[cost] = (manaCurve[cost] ?? 0) + entry.count
-      totalMana += entry.card.manaCost * entry.count
-      creatureCount += entry.count // all are creatures for now
+      totalMana += entry.card.cost * entry.count
+      if (entry.card.type.toLowerCase().includes('creature')) {
+        creatureCount += entry.count
+      }
     }
 
     const avgMana = totalCards > 0 ? (totalMana / totalCards).toFixed(1) : '0'
@@ -111,7 +131,8 @@ function DeckBuilderPage(): JSX.Element {
   const deckCivs = useMemo(() => {
     const civs = new Set<string>()
     for (const entry of deck) {
-      civs.add(entry.card.civilization)
+      const cardCivs = Array.isArray(entry.card.civilization) ? entry.card.civilization : [entry.card.civilization]
+      cardCivs.forEach((c) => civs.add(c))
     }
     return Array.from(civs)
   }, [deck])
@@ -119,6 +140,14 @@ function DeckBuilderPage(): JSX.Element {
   const maxCurveValue = deckStats
     ? Math.max(...Object.values(deckStats.manaCurve), 1)
     : 1
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-sm text-slate-500">Loading card database...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="flex gap-5 h-full overflow-hidden">
@@ -168,7 +197,7 @@ function DeckBuilderPage(): JSX.Element {
 
         {/* Card grid */}
         <div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-3 flex-1 overflow-auto pb-2">
-          {filtered.map((card) => {
+          {filtered.slice(0, 200).map((card) => {
             const count = getCardCount(card.id)
             const atMax = count >= MAX_COPIES || totalCards >= MAX_DECK_SIZE
             return (
@@ -181,11 +210,11 @@ function DeckBuilderPage(): JSX.Element {
                     imageSrc={card.imageSrc}
                     imageAlt={card.name}
                     size={CardSize.Deck}
-                    civilization={card.civilization}
-                    rarity={card.rarity}
+                    civilization={normalizeCiv(getPrimaryCiv(card))}
+                    rarity={normalizeRarity(card.rarity)}
                     displayMode="detailed"
                     name={card.name}
-                    manaCost={card.manaCost}
+                    manaCost={card.cost}
                     power={card.power}
                     holographic={false}
                     tiltEnabled={false}
@@ -241,7 +270,7 @@ function DeckBuilderPage(): JSX.Element {
             </div>
           ) : (
             deck
-              .sort((a, b) => a.card.manaCost - b.card.manaCost)
+              .sort((a, b) => a.card.cost - b.card.cost)
               .map((entry) => (
                 <div
                   key={entry.card.id}
@@ -250,9 +279,9 @@ function DeckBuilderPage(): JSX.Element {
                   {/* Mana cost */}
                   <div
                     className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0"
-                    style={{ background: civColors[entry.card.civilization] ?? '#555' }}
+                    style={{ background: civColors[getPrimaryCiv(entry.card)] ?? '#555' }}
                   >
-                    {entry.card.manaCost}
+                    {entry.card.cost}
                   </div>
                   {/* Name */}
                   <span className="text-xs text-slate-200 truncate flex-1">{entry.card.name}</span>
