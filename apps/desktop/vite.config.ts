@@ -14,6 +14,7 @@ export default defineConfig({
         __dirname,
         'node_modules/convex/dist/esm/react-clerk/index.js'
       ),
+      '@convex': path.resolve(__dirname, '../web/convex'),
     },
   },
 

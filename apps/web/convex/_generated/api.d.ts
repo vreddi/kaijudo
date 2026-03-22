@@ -12,6 +12,7 @@ import type * as card_baseCard from "../card/baseCard.js";
 import type * as card_civilization from "../card/civilization.js";
 import type * as card_race from "../card/race.js";
 import type * as card_rarity from "../card/rarity.js";
+import type * as userSettings from "../userSettings.js";
 
 import type {
   ApiFromModules,
@@ -24,6 +25,7 @@ declare const fullApi: ApiFromModules<{
   "card/civilization": typeof card_civilization;
   "card/race": typeof card_race;
   "card/rarity": typeof card_rarity;
+  userSettings: typeof userSettings;
 }>;
 
 /**

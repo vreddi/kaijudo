@@ -9,6 +9,7 @@ import RecentMatches from './RecentMatches'
 import Goals from './Goals'
 import CollectionPage from './CollectionPage'
 import DeckBuilderPage from './DeckBuilderPage'
+import SettingsPage from './SettingsPage'
 
 function MenuScreen(): JSX.Element {
   const [activeTab, setActiveTab] = useState<SidebarTab>('home')
@@ -24,7 +25,7 @@ function MenuScreen(): JSX.Element {
           {activeTab === 'collection' && <CollectionPage />}
           {activeTab === 'play' && <PlaceholderPage title="Play" />}
           {activeTab === 'friends' && <PlaceholderPage title="Friends" />}
-          {activeTab === 'settings' && <PlaceholderPage title="Settings" />}
+          {activeTab === 'settings' && <SettingsPage />}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Howl } from 'howler'
+import { useOptionalSettings } from './contexts/SettingsContext'
 
 interface Song {
   id: string
@@ -22,6 +23,10 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 function MusicPlayer(): JSX.Element | null {
+  const settingsCtx = useOptionalSettings()
+  const musicVolume = settingsCtx?.settings.musicVolume ?? 0.5
+  const musicEnabled = settingsCtx?.settings.musicEnabled ?? true
+
   const howlRef = useRef<Howl | null>(null)
   const queueRef = useRef<Song[]>([])
   const playlistRef = useRef<Song[]>([])
@@ -37,7 +42,7 @@ function MusicPlayer(): JSX.Element | null {
     const howl = new Howl({
       src: [song.file],
       html5: true,
-      volume: 0.5,
+      volume: musicVolume,
       onend: () => {
         let next = queueRef.current.slice(1)
         if (next.length === 0) {
@@ -95,6 +100,25 @@ function MusicPlayer(): JSX.Element | null {
       clearTimeout(hideTimer)
     }
   }, [current])
+
+  // Sync volume from settings
+  useEffect(() => {
+    if (howlRef.current) {
+      howlRef.current.volume(musicVolume)
+    }
+  }, [musicVolume])
+
+  // Pause/resume based on musicEnabled
+  useEffect(() => {
+    if (!howlRef.current) return
+    if (musicEnabled) {
+      if (!howlRef.current.playing()) {
+        howlRef.current.play()
+      }
+    } else {
+      howlRef.current.pause()
+    }
+  }, [musicEnabled])
 
   if (!toast) return null
 
