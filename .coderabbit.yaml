@@ -28,7 +28,9 @@ reviews:
     - "!**/node_modules/**"
     - "!**/.storybook/**"
     - "!**/storybook-static/**"
-    - "!pnpm-lock.yaml"
+    - "!**/pnpm-lock.yaml"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
     - "!**/_generated/**"
     - "!**/public/data/card-images/**"
 
