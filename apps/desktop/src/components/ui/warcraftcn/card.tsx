@@ -4,13 +4,25 @@ import { cn } from "@/lib/utils"
 
 import "@/components/ui/warcraftcn/styles/warcraft.css";
 
+type CardSize = "sm" | "md" | "lg"
+type CardCivilization = "Light" | "Water" | "Darkness" | "Fire" | "Nature"
+
+interface CardProps extends Omit<React.ComponentProps<"div">, "data-size" | "data-civilization"> {
+  size?: CardSize
+  civilization?: CardCivilization
+}
+
 function Card({
   className,
+  size = "md",
+  civilization = "Light",
   ...props
-}: React.ComponentProps<"div">) {
+}: CardProps) {
   return (
     <div
       data-slot="card"
+      data-size={size}
+      data-civilization={civilization}
       className={cn(
         "fantasy text-card-foreground gap-4 overflow-hidden rounded-xl text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col border-solid wc-card-border [border-image-repeat:stretch]",
         "border-24 px-6 [border-image-slice:24_fill]",
@@ -97,3 +109,5 @@ export {
   CardDescription,
   CardContent,
 }
+
+export type { CardProps, CardSize, CardCivilization }
