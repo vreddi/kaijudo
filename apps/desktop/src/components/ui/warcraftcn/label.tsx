@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import "@/components/ui/warcraftcn/styles/warcraft.css";
 
 const labelVariants = cva(
-  "fantasy text-sm font-medium leading-none select-none",
+  "fantasy font-medium leading-none select-none",
   {
     variants: {
       variant: {
@@ -17,9 +17,22 @@ const labelVariants = cva(
           "text-amber-200 [text-shadow:0_0_6px_rgba(251,191,36,0.25)]",
         muted: "text-amber-200/60",
       },
+      civilization: {
+        light: "text-[#FFD700] [text-shadow:0_0_6px_rgba(255,215,0,0.3)]",
+        water: "text-[#1E90FF] [text-shadow:0_0_6px_rgba(30,144,255,0.3)]",
+        darkness: "text-[#8B00FF] [text-shadow:0_0_6px_rgba(139,0,255,0.3)]",
+        fire: "text-[#FF4500] [text-shadow:0_0_6px_rgba(255,69,0,0.3)]",
+        nature: "text-[#32CD32] [text-shadow:0_0_6px_rgba(50,205,50,0.3)]",
+      },
+      size: {
+        sm: "text-xs",
+        md: "text-sm",
+        lg: "text-base",
+      },
     },
     defaultVariants: {
       variant: "default",
+      size: "md",
     },
   }
 );
@@ -33,6 +46,8 @@ type LabelProps = React.ComponentProps<typeof LabelPrimitive.Root> &
 function Label({
   className,
   variant,
+  civilization,
+  size,
   required = false,
   disabled = false,
   children,
@@ -43,7 +58,7 @@ function Label({
       data-slot="label"
       data-disabled={disabled || undefined}
       className={cn(
-        labelVariants({ variant }),
+        labelVariants({ variant, civilization, size }),
         disabled && "cursor-not-allowed opacity-50",
         className
       )}
