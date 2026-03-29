@@ -28,15 +28,19 @@ const checkboxVariants = cva(
 
 type Faction = "default" | "orc" | "elf" | "human" | "undead";
 
-interface CheckboxProps
-  extends Omit<
-      React.ComponentProps<typeof CheckboxPrimitive.Root>,
-      "children" | "asChild"
-    >,
-    VariantProps<typeof checkboxVariants> {
-  faction?: Faction;
-  children?: React.ReactNode;
-}
+type CheckboxBaseProps = Omit<
+  React.ComponentProps<typeof CheckboxPrimitive.Root>,
+  "children" | "asChild"
+> &
+  VariantProps<typeof checkboxVariants> & {
+    faction?: Faction;
+  };
+
+// Require either children (label text), aria-label, or aria-labelledby
+type CheckboxProps =
+  | (CheckboxBaseProps & { children: React.ReactNode; "aria-label"?: string; "aria-labelledby"?: string })
+  | (CheckboxBaseProps & { children?: never; "aria-label": string; "aria-labelledby"?: string })
+  | (CheckboxBaseProps & { children?: never; "aria-label"?: string; "aria-labelledby": string });
 
 function Checkbox({
   faction = "default",
@@ -46,26 +50,46 @@ function Checkbox({
   id,
   ...props
 }: CheckboxProps) {
-  return (
-    <label
-      htmlFor={id}
-      className={cn(
-        checkboxVariants({ faction }),
-        disabled && "opacity-50 cursor-not-allowed"
-      )}
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !children &&
+    !props["aria-label"] &&
+    !props["aria-labelledby"]
+  ) {
+    console.error(
+      "[Checkbox] Accessibility error: every Checkbox must have an accessible name. " +
+        "Provide children (label text), aria-label, or aria-labelledby."
+    );
+  }
+
+  const root = (
+    <CheckboxPrimitive.Root
+      data-slot="checkbox"
+      className={cn("wc-checkbox", `wc-checkbox-${faction}`, className)}
+      disabled={disabled}
+      id={id}
+      {...props}
     >
-      <CheckboxPrimitive.Root
-        data-slot="checkbox"
-        className={cn("wc-checkbox", `wc-checkbox-${faction}`, className)}
-        disabled={disabled}
-        id={id}
-        {...props}
-      >
-        <CheckboxPrimitive.Indicator />
-      </CheckboxPrimitive.Root>
-      {children}
-    </label>
+      <CheckboxPrimitive.Indicator />
+    </CheckboxPrimitive.Root>
   );
+
+  if (children) {
+    return (
+      <label
+        htmlFor={id}
+        className={cn(
+          checkboxVariants({ faction }),
+          disabled && "opacity-50 cursor-not-allowed"
+        )}
+      >
+        {root}
+        {children}
+      </label>
+    );
+  }
+
+  return root;
 }
 
 export { Checkbox, checkboxVariants };

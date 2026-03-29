@@ -79,6 +79,7 @@ function SettingsPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <Label>Music Enabled</Label>
             <Checkbox
+              aria-label="Music Enabled"
               checked={settings.musicEnabled}
               onCheckedChange={(checked) => handleUpdate('musicEnabled', checked === true)}
             />
@@ -137,6 +138,7 @@ function SettingsPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <Label>Reduced Motion</Label>
             <Checkbox
+              aria-label="Reduced Motion"
               checked={settings.reducedMotion}
               onCheckedChange={(checked) => handleUpdate('reducedMotion', checked === true)}
             />
@@ -157,6 +159,7 @@ function SettingsPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <Label>Auto-pass Priority</Label>
             <Checkbox
+              aria-label="Auto-pass Priority"
               checked={settings.autoPassPriority}
               onCheckedChange={(checked) => handleUpdate('autoPassPriority', checked === true)}
             />
@@ -164,6 +167,7 @@ function SettingsPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <Label>Confirm Before Attacking</Label>
             <Checkbox
+              aria-label="Confirm Before Attacking"
               checked={settings.confirmBeforeAttacking}
               onCheckedChange={(checked) => handleUpdate('confirmBeforeAttacking', checked === true)}
             />
@@ -171,6 +175,7 @@ function SettingsPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <Label>Show Card Tooltips</Label>
             <Checkbox
+              aria-label="Show Card Tooltips"
               checked={settings.showCardTooltips}
               onCheckedChange={(checked) => handleUpdate('showCardTooltips', checked === true)}
             />
