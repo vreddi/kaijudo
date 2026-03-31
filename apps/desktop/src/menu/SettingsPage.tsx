@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { useUser, useClerk } from '@clerk/clerk-react'
 import { useSettingsContext } from '../contexts/SettingsContext'
 import type { UserSettings } from '../hooks/useSettings'
@@ -19,11 +19,23 @@ function SettingsPage(): JSX.Element {
   const { user } = useUser()
   const clerk = useClerk()
   const [saved, setSaved] = useState(false)
+  const savedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const showSaved = () => {
+    if (savedTimeoutRef.current) {
+      clearTimeout(savedTimeoutRef.current)
+    }
     setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+    savedTimeoutRef.current = setTimeout(() => setSaved(false), 2000)
   }
+
+  useEffect(() => {
+    return () => {
+      if (savedTimeoutRef.current) {
+        clearTimeout(savedTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleUpdate = <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
     updateSetting(key, value)
@@ -234,17 +246,19 @@ function SliderRow({
   value: number
   onChange: (v: number) => void
 }): JSX.Element {
+  const id = useId()
   const pct = Math.round(value * 100)
   return (
     <div className="flex items-center justify-between gap-4">
-      <Label>{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       <div className="flex items-center gap-3">
-        <div className="relative w-[150px] h-1.5 rounded-full bg-white/8 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)] overflow-hidden">
+        <div className="relative w-[150px] h-1.5 rounded-full bg-white/8 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)] overflow-hidden focus-within:ring-2 focus-within:ring-amber-400/50 focus-within:ring-offset-1 focus-within:ring-offset-transparent">
           <div
             className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-amber-700 to-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.3)] pointer-events-none"
             style={{ width: `${pct}%`, transition: 'width 0.05s ease-out' }}
           />
           <input
+            id={id}
             type="range"
             min={0}
             max={1}
