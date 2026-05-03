@@ -5,6 +5,9 @@
 # TODO: migrate to Git LFS — see GitHub issue for tracking
 apps/desktop/public/music/*.wav
 
+# Playwright MCP cache (scratch artifacts from MCP browser sessions)
+.playwright-mcp/
+
 # Logs
 logs
 *.log
