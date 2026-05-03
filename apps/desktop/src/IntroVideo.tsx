@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 interface IntroVideoProps {
   onComplete: () => void
@@ -15,7 +15,7 @@ function IntroVideo({ onComplete }: IntroVideoProps): JSX.Element {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = 0.1
     }

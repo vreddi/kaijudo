@@ -28,12 +28,7 @@ function App(): JSX.Element {
           <MusicPlayer />
         </>
       )}
-      {screen === 'game' && (
-        <>
-          <AuthGate />
-          <MusicPlayer />
-        </>
-      )}
+      {screen === 'game' && <AuthGate />}
     </>
   )
 }
