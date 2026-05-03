@@ -16,6 +16,12 @@ function IntroVideo({ onComplete }: IntroVideoProps): JSX.Element {
   }, [])
 
   useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = 0.1
+    }
+  }, [])
+
+  useEffect(() => {
     const handleKey = () => onComplete()
     const handleClick = (e: MouseEvent) => {
       // Don't double-fire if they click the skip button
