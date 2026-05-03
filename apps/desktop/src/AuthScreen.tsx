@@ -4,6 +4,7 @@ function AuthScreen(): JSX.Element {
   return (
     <div style={styles.container}>
       <SignIn
+        routing="virtual"
         appearance={{
           variables: {
             colorPrimary: '#e0e0e0',

@@ -1,6 +1,8 @@
 import { useAuth } from '@clerk/clerk-react'
 import AuthScreen from './AuthScreen'
 import MenuScreen from './menu/MenuScreen'
+import MusicPlayer from './MusicPlayer'
+import { SettingsProvider } from './contexts/SettingsContext'
 
 function AuthGate(): JSX.Element {
   const { isSignedIn, isLoaded } = useAuth()
@@ -17,7 +19,12 @@ function AuthGate(): JSX.Element {
     return <AuthScreen />
   }
 
-  return <MenuScreen />
+  return (
+    <SettingsProvider>
+      <MenuScreen />
+      <MusicPlayer />
+    </SettingsProvider>
+  )
 }
 
 const styles: Record<string, React.CSSProperties> = {

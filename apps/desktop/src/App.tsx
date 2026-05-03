@@ -4,7 +4,6 @@ import IntroVideo from './IntroVideo'
 import TitleScreen from './TitleScreen'
 import AuthGate from './AuthGate'
 import MusicPlayer from './MusicPlayer'
-import { SettingsProvider } from './contexts/SettingsContext'
 
 type Screen = 'disclaimer' | 'intro' | 'title' | 'game'
 
@@ -29,12 +28,7 @@ function App(): JSX.Element {
           <MusicPlayer />
         </>
       )}
-      {screen === 'game' && (
-        <SettingsProvider>
-          <AuthGate />
-          <MusicPlayer />
-        </SettingsProvider>
-      )}
+      {screen === 'game' && <AuthGate />}
     </>
   )
 }
