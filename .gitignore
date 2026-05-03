@@ -1,6 +1,13 @@
 # Card images (downloaded locally, not committed — future: served from image API)
 **/card-images/
 
+# Large uncompressed audio masters (kept locally; app loads .m4a versions)
+# TODO: migrate to Git LFS — see GitHub issue for tracking
+apps/desktop/public/music/*.wav
+
+# Playwright MCP cache (scratch artifacts from MCP browser sessions)
+.playwright-mcp/
+
 # Logs
 logs
 *.log
