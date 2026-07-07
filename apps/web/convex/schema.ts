@@ -39,4 +39,34 @@ export default defineSchema({
     confirmBeforeAttacking: v.boolean(),
     showCardTooltips: v.boolean(),
   }).index("by_userId", ["userId"]),
+
+  decks: defineTable({
+    userId: v.string(),
+    name: v.string(),
+    cardIds: v.array(v.string()),
+    updatedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  games: defineTable({
+    code: v.string(),
+    status: v.union(
+      v.literal("waiting"),
+      v.literal("inProgress"),
+      v.literal("completed")
+    ),
+    hostUserId: v.string(),
+    hostName: v.string(),
+    hostDeck: v.array(v.string()),
+    guestUserId: v.optional(v.string()),
+    guestName: v.optional(v.string()),
+    guestDeck: v.optional(v.array(v.string())),
+    /** JSON.stringify(GameState) — the engine state stored here is authoritative. */
+    state: v.optional(v.string()),
+    winner: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_code", ["code"])
+    .index("by_hostUserId", ["hostUserId"])
+    .index("by_guestUserId", ["guestUserId"]),
 });
