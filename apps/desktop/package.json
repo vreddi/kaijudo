@@ -13,6 +13,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.56.2",
     "@kaijudo/dashboard-creature-card": "workspace:*",
+    "@kaijudo/game-engine": "workspace:*",
     "@kaijudo/react-card": "workspace:*",
     "@kaijudo/react-card-images": "workspace:*",
     "@kaijudo/react-game-types": "workspace:*",
