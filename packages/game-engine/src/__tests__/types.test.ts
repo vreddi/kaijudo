@@ -264,6 +264,7 @@ describe("Type shapes (compile-time checks)", () => {
       pendingDecision: null,
       combat: null,
       powerMods: [],
+      keywordMods: [],
     };
     expect(visible.opponent.handCount).toBe(5);
     expect(visible.opponent.deckCount).toBe(30);

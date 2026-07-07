@@ -39,6 +39,40 @@ export class IllegalActionError extends Error {
   }
 }
 
+/**
+ * Choose mana cards to pay for a card. Every civilization of the card
+ * must appear among the tapped mana. Returns null if unpayable.
+ * Exported so UIs can compute affordability from a visible state.
+ */
+export function selectManaFor(
+  manaZone: readonly CardInMana[],
+  card: Pick<CardDefinition, "cost" | "civilizations">,
+): string[] | null {
+  const available = manaZone.filter((c) => !c.tapped);
+  if (available.length < card.cost) return null;
+  const chosen: CardInMana[] = [];
+  const needed = new Set(card.civilizations);
+  // First cover each required civilization.
+  for (const civ of card.civilizations) {
+    const found = available.find(
+      (c) => !chosen.includes(c) && c.civilizations.includes(civ),
+    );
+    if (found) {
+      chosen.push(found);
+      needed.delete(civ);
+    }
+  }
+  if (needed.size > 0) return null;
+  if (chosen.length > card.cost) return null; // more civs than cost (can't happen in practice)
+  // Fill the rest with any untapped mana.
+  for (const c of available) {
+    if (chosen.length >= card.cost) break;
+    if (!chosen.includes(c)) chosen.push(c);
+  }
+  if (chosen.length < card.cost) return null;
+  return chosen.map((c) => c.instanceId);
+}
+
 export interface NewGamePlayer {
   name: string;
   /** 40 card ids (duplicates allowed up to config.maxCopiesPerCard). */
@@ -932,38 +966,8 @@ export function createEngine(registry: CardRegistry): Engine {
 
   // -- mana -----------------------------------------------------------------
 
-  function untappedMana(p: PlayerState): CardInMana[] {
-    return p.manaZone.filter((c) => !c.tapped);
-  }
-
-  /**
-   * Choose mana cards to pay for a card. Every civilization of the card
-   * must appear among the tapped mana. Returns null if unpayable.
-   */
   function autoSelectMana(p: PlayerState, card: CardDefinition): string[] | null {
-    const available = untappedMana(p);
-    if (available.length < card.cost) return null;
-    const chosen: CardInMana[] = [];
-    const needed = new Set(card.civilizations);
-    // First cover each required civilization.
-    for (const civ of card.civilizations) {
-      const found = available.find(
-        (c) => !chosen.includes(c) && c.civilizations.includes(civ),
-      );
-      if (found) {
-        chosen.push(found);
-        needed.delete(civ);
-      }
-    }
-    if (needed.size > 0) return null;
-    if (chosen.length > card.cost) return null; // more civs than cost (can't happen in practice)
-    // Fill the rest with any untapped mana.
-    for (const c of available) {
-      if (chosen.length >= card.cost) break;
-      if (!chosen.includes(c)) chosen.push(c);
-    }
-    if (chosen.length < card.cost) return null;
-    return chosen.map((c) => c.instanceId);
+    return selectManaFor(p.manaZone, card);
   }
 
   function payMana(state: Draft, playerId: 1 | 2, cardDef: CardDefinition, manaTapIds: string[]): void {
@@ -1747,6 +1751,7 @@ export function createEngine(registry: CardRegistry): Engine {
       pendingDecision: state.pendingDecision,
       combat: state.combat,
       powerMods: state.powerMods,
+      keywordMods: state.keywordMods,
     };
   }
 

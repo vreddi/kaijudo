@@ -142,4 +142,6 @@ export interface VisibleGameState {
   combat: CombatState | null;
   /** Temporary power modifications (public). */
   powerMods: readonly PowerMod[];
+  /** Temporary keyword grants (public). */
+  keywordMods: readonly KeywordMod[];
 }

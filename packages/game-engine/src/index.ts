@@ -80,7 +80,7 @@ export {
   normalizeRarity,
 } from "./compile";
 export type { CardRegistry } from "./compile";
-export { createEngine, IllegalActionError } from "./engine";
+export { createEngine, IllegalActionError, selectManaFor } from "./engine";
 export type { Engine, NewGameParams, NewGamePlayer } from "./engine";
 export { chooseAction, aiMustAct } from "./ai";
 export { seedFromString, shuffle, nextRandom, randomIndex } from "./rng";
