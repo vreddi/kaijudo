@@ -3,6 +3,31 @@ import type { TurnPhase } from "./turn-phase";
 import type { MatchTimer } from "./timer";
 import type { GameEvent, GameOverReason } from "./events";
 import type { GameConfig } from "./config";
+import type { PendingDecision, QueuedEffect } from "./decision";
+
+/** State of the attack currently being resolved, if any. */
+export interface CombatState {
+  /** Attacking player. */
+  attackerPlayer: 1 | 2;
+  attackerInstanceId: string;
+  /** "player" for direct/shield attacks, else defending creature instance id. */
+  target: "player" | string;
+  /** Blocker that intercepted the attack, if any. */
+  blockerInstanceId: string | null;
+}
+
+/** A temporary power modification, cleared at end of turn. */
+export interface PowerMod {
+  instanceId: string;
+  amount: number;
+}
+
+/** A temporary keyword grant, cleared at end of turn. */
+export interface KeywordMod {
+  instanceId: string;
+  keyword: "powerAttacker" | "slayer" | "speedAttacker" | "breaker" | "cantBeBlocked";
+  value?: number;
+}
 
 /** Overall status of a game session. */
 export enum GameStatus {
@@ -57,6 +82,25 @@ export interface GameState {
   result: MatchResult | null;
   /** Timestamp when the game started. null if status is Waiting. */
   startedAt: number | null;
+  /** Seeded RNG state — advances on every shuffle/random pick. */
+  rngState: number;
+  /** Decision the game is blocked on, if any. */
+  pendingDecision: PendingDecision | null;
+  /** Effects queued for resolution (FIFO). */
+  effectQueue: readonly QueuedEffect[];
+  /** Attack currently being resolved, if any. */
+  combat: CombatState | null;
+  /** Temporary power modifications, cleared at end of turn. */
+  powerMods: readonly PowerMod[];
+  /** Temporary keyword grants, cleared at end of turn. */
+  keywordMods: readonly KeywordMod[];
+  /**
+   * Shield trigger cards (now in hand) the defender may still play for
+   * free. Surfaced as a shieldTrigger decision once the effect queue drains.
+   */
+  pendingShieldTriggers: { playerId: 1 | 2; candidateIds: readonly string[] } | null;
+  /** The queued effect awaiting target selection (paired with a chooseTargets decision). */
+  pendingOp?: QueuedEffect | null;
 }
 
 /**
@@ -92,4 +136,10 @@ export interface VisibleGameState {
   /** Timestamp when the game started. null if status is Waiting. */
   startedAt: number | null;
   result: MatchResult | null;
+  /** Decision the game is blocked on, if any (public — UI shows prompts). */
+  pendingDecision: PendingDecision | null;
+  /** Attack currently being resolved, if any. */
+  combat: CombatState | null;
+  /** Temporary power modifications (public). */
+  powerMods: readonly PowerMod[];
 }

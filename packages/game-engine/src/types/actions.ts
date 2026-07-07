@@ -9,9 +9,46 @@ export type GameAction =
   | CastSpellAction
   | AttackCreatureAction
   | AttackPlayerAction
+  | BlockAction
+  | ShieldTriggerAction
+  | ChooseTargetsAction
+  | DiscardAction
   | EndPhaseAction
   | EndTurnAction
   | SurrenderAction;
+
+/**
+ * Respond to a block decision. blockerInstanceId null = don't block.
+ */
+export interface BlockAction {
+  type: "block";
+  playerId: 1 | 2;
+  blockerInstanceId: string | null;
+}
+
+/**
+ * Respond to a shield trigger decision.
+ * cardInstanceId null = decline all remaining triggers.
+ */
+export interface ShieldTriggerAction {
+  type: "shieldTrigger";
+  playerId: 1 | 2;
+  cardInstanceId: string | null;
+}
+
+/** Respond to a chooseTargets decision. Empty array only if the effect is optional. */
+export interface ChooseTargetsAction {
+  type: "chooseTargets";
+  playerId: 1 | 2;
+  targetInstanceIds: string[];
+}
+
+/** Respond to a discard decision (choose own cards to discard). */
+export interface DiscardAction {
+  type: "discard";
+  playerId: 1 | 2;
+  cardInstanceIds: string[];
+}
 
 /** Draw a card from the deck (automatic during Draw phase). */
 export interface DrawCardAction {
@@ -33,8 +70,10 @@ export interface SummonCreatureAction {
   playerId: 1 | 2;
   /** Instance ID of the creature card to summon. */
   cardInstanceId: string;
-  /** Instance IDs of mana cards to tap for payment. */
+  /** Instance IDs of mana cards to tap for payment. Empty = auto-select. */
   manaTapIds: string[];
+  /** For evolution creatures: instance ID of the base creature to evolve. */
+  evolutionBaseInstanceId?: string;
 }
 
 /** Cast a spell from hand (goes to graveyard after resolving). */
