@@ -20,6 +20,7 @@
     "@clerk/clerk-react": "^5.49.0",
     "@cloudflare/vite-plugin": "^1.13.8",
     "@convex-dev/react-query": "0.0.0-alpha.11",
+    "@kaijudo/game-engine": "workspace:*",
     "@kaijudo/react-card": "workspace:*",
     "@kaijudo/react-card-images": "workspace:*",
     "@kaijudo/react-header": "workspace:*",

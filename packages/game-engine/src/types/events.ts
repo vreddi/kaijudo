@@ -14,8 +14,30 @@ export type GameEvent =
   | TurnChangeEvent
   | ShieldBreakEvent
   | CreatureDestroyedEvent
+  | BattleEvent
+  | EffectEvent
   | GameOverEvent
   | TimerWarningEvent;
+
+/** A battle between two creatures resolved. */
+export interface BattleEvent extends BaseEvent {
+  type: "battle";
+  attackerInstanceId: string;
+  defenderInstanceId: string;
+  /** Which side's creature survived. */
+  outcome: "attackerWins" | "defenderWins" | "bothDestroyed";
+}
+
+/** A card effect resolved (draw, destroy, tap, …). */
+export interface EffectEvent extends BaseEvent {
+  type: "effect";
+  /** Player controlling the effect. */
+  controller: 1 | 2;
+  /** Name of the source card. */
+  sourceName: string;
+  /** Human-readable description of what happened. */
+  description: string;
+}
 
 /** Common fields shared by all game events. */
 export interface BaseEvent {

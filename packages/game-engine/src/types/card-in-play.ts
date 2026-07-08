@@ -1,4 +1,5 @@
-import type { Civilization, Rarity, Race } from "@kaijudo/react-game-types";
+import type { Civilization, Rarity } from "@kaijudo/react-game-types";
+import type { PlayableCardType } from "./ability";
 
 /**
  * A card as it exists in the game with a unique instance ID.
@@ -16,10 +17,13 @@ export interface GameCard {
   readonly civilizations: readonly Civilization[];
   /** Mana cost to summon/cast. */
   readonly cost: number;
-  /** Card type: "Creature" or "Spell". */
-  readonly type: "Creature" | "Spell";
-  /** Creature race (undefined for spells). */
-  readonly race?: Race;
+  /** Card type. */
+  readonly type: PlayableCardType;
+  /**
+   * Creature race (undefined for spells). Kept as a free-form string —
+   * the database has hundreds of races, including multi-race cards.
+   */
+  readonly race?: string;
   /** Creature power (undefined for spells). */
   readonly power?: number;
   /** Card rarity. */
@@ -30,6 +34,8 @@ export interface GameCard {
   readonly collectorNum: string;
   /** Path to card image. */
   readonly imageSrc: string;
+  /** Rules text lines, for display. */
+  readonly rulesText: readonly string[];
 }
 
 /**
@@ -37,7 +43,7 @@ export interface GameCard {
  * zone-specific gameplay state.
  */
 export interface CreatureInBattle extends GameCard {
-  readonly type: "Creature";
+  readonly type: "Creature" | "Evolution Creature";
   readonly power: number;
   /** Whether this creature is tapped (turned sideways). */
   readonly tapped: boolean;
@@ -45,6 +51,8 @@ export interface CreatureInBattle extends GameCard {
   readonly summoningSick: boolean;
   /** The turn number this creature was summoned on. */
   readonly summonedOnTurn: number;
+  /** Cards underneath an evolution creature (go to grave with it). */
+  readonly evolutionSources?: readonly GameCard[];
 }
 
 /**
@@ -60,9 +68,11 @@ export interface CardInMana extends GameCard {
  * Assumes the input is already a valid GameCard — checks zone-specific fields.
  */
 export function isCreatureInBattle(card: GameCard): card is CreatureInBattle {
-  return card.type === "Creature"
-    && "tapped" in card
-    && "summoningSick" in card;
+  return (
+    (card.type === "Creature" || card.type === "Evolution Creature") &&
+    "tapped" in card &&
+    "summoningSick" in card
+  );
 }
 
 /**

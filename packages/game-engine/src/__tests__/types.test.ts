@@ -110,6 +110,7 @@ describe("GameCard and type guards", () => {
     set: "DM-01",
     collectorNum: "S1/S10",
     imageSrc: "/data/card-images/0001.webp",
+    rulesText: ["Double breaker (This creature breaks 2 shields.)"],
   };
 
   it("isCreatureInBattle identifies battle zone creatures", () => {
@@ -220,6 +221,13 @@ describe("Type shapes (compile-time checks)", () => {
       nextEventSeq: 0,
       result: null,
       startedAt: null,
+      rngState: 12345,
+      pendingDecision: null,
+      effectQueue: [],
+      combat: null,
+      powerMods: [],
+      keywordMods: [],
+      pendingShieldTriggers: null,
     };
     expect(state.gameId).toBe("test-game-1");
     expect(state.status).toBe(GameStatus.Waiting);
@@ -253,6 +261,10 @@ describe("Type shapes (compile-time checks)", () => {
       eventLog: [],
       startedAt: null,
       result: null,
+      pendingDecision: null,
+      combat: null,
+      powerMods: [],
+      keywordMods: [],
     };
     expect(visible.opponent.handCount).toBe(5);
     expect(visible.opponent.deckCount).toBe(30);

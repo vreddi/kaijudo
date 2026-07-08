@@ -10,6 +10,7 @@ export interface CollectionCard {
   collectorNum: string
   set: string
   imageSrc: string
+  rulesText?: string[]
 }
 
 let cachedCards: CollectionCard[] | null = null
