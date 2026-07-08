@@ -104,6 +104,11 @@ const styles: Record<string, React.CSSProperties> = {
     position: 'absolute',
     right: '5%',
     top: '50%',
+    // Center the image on the vertical axis. The float animation overrides
+    // this while running, but keeping it here guarantees the image stays
+    // centered on the first frame and when animations are disabled
+    // (e.g. reduced-motion) instead of dropping down with its top edge at 50%.
+    transform: 'translateY(-50%)',
     height: '75%',
     maxWidth: '50%',
     objectFit: 'contain',

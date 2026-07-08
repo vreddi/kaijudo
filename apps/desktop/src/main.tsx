@@ -21,7 +21,17 @@ const convex = new ConvexReactClient(CONVEX_URL)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      // Tauri's webview serves the app from a custom `tauri://` origin. Clerk's
+      // default "standard browser" mode derives its `redirect_url` from that
+      // origin, which the Frontend API rejects with "Invalid URL scheme"
+      // (only http/https are allowed). Running in non-standard-browser mode
+      // stops Clerk from using the custom-scheme origin as a redirect target,
+      // and `persistClient` keeps the session without relying on cookies.
+      standardBrowser={false}
+      experimental={{ persistClient: true }}
+    >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <App />
       </ConvexProviderWithClerk>
